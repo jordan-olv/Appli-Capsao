@@ -7,6 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/**
+ * Controller connexion
+ */
+
 class SecurityController extends AbstractController
 {
     #[Route(path: '/', name: 'app_login')]

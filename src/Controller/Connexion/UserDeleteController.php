@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller suppression utilisateur
+ */
+
 #[Route('/admin/user')]
 class UserDeleteController extends AbstractController
 {

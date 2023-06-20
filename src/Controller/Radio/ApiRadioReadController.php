@@ -7,6 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller affichages liste des radios
+ */
+
 #[Route('admin/radio')]
 class ApiRadioReadController extends AbstractController
 {

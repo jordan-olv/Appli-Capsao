@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller de suppresion de radio
+ */
+
 #[Route('admin/radio')]
 class ApiRadioDeleteController extends AbstractController
 {

@@ -21,6 +21,8 @@ class ApiPodcast
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    // Ajout automatique de la date du moment ou l'entité est rajouté dans la bdd
+
     public function __construct(){
         $this->createdAt = new \DateTimeImmutable();
     }

@@ -6,6 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller du menu
+ */
+
 class MenuController extends AbstractController
 {
     #[Route('/menu', name: 'app_menu')]

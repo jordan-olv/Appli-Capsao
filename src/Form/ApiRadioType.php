@@ -22,7 +22,6 @@ class ApiRadioType extends AbstractType
                 'required'=> false,
                 'empty_data' => '15',
             ]);
-            // ->add('coordonnees');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

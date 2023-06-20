@@ -13,6 +13,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
+/**
+ * Controller création de compte
+ */
+
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]

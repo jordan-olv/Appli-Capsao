@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller mise a jour podcast
+ */
 
 #[Route('/podcast')]
 class ApiPodcastUpdateController extends AbstractController

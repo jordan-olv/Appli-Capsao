@@ -13,7 +13,6 @@ class ApiPodcastType extends AbstractType
     {
         $builder
             ->add('link')
-            // ->add('created_at')
         ;
     }
 

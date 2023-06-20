@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller liste utilisateur
+ */
+
 #[Route('/admin/user')]
 class UserController extends AbstractController
 {

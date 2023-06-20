@@ -5,6 +5,10 @@ namespace App\Controller\Connexion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller de déconnexion
+ */
+
 class DisconnectController extends AbstractController
 {
     #[Route(path: '/logout', name: 'app_logout')]

@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller suppresion podcast
+ */
 
 #[Route('/podcast')]
 class ApiPodcastDeleteController extends AbstractController
