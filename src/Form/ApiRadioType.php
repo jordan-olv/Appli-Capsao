@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\ApiRadio;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ApiRadioType extends AbstractType
 {
@@ -22,6 +24,11 @@ class ApiRadioType extends AbstractType
                 'required'=> false,
                 'empty_data' => '15',
             ]);
+            // ->add('isDefault',CheckboxType::class,[
+            //     'label'=> 'Choisir par défaut ?',
+            //     'required' => false,
+            //     'value' => 1
+            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

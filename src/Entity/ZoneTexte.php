@@ -2,13 +2,18 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\ZoneTexteRepository;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\ZoneTexteRepository;
 
 #[ORM\Entity(repositoryClass: ZoneTexteRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(),
+    ]
+)]
 class ZoneTexte
 {
     #[ORM\Id]

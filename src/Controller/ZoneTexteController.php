@@ -22,7 +22,7 @@ class ZoneTexteController extends AbstractController
             $zoneTexteRepository->save($zoneTexte, true);
         }
 
-        return $this->renderForm('zone_texte/index.html.twig', [
+        return $this->render('zone_texte/index.html.twig', [
             'zoneTexte' => $zoneTexte,
             'form' => $form,
         ]);

@@ -5,10 +5,11 @@ namespace App\Controller\Radio;
 use App\Entity\ApiRadio;
 use App\Form\ApiRadioType;
 use App\Repository\ApiRadioRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Controller de mise a jour des radios
@@ -18,12 +19,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiRadioUpdateController extends AbstractController
 {
     #[Route('/{id}/edit', name: 'app_api_radio_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, ApiRadio $apiRadio, ApiRadioRepository $apiRadioRepository): Response
+    public function edit(Request $request, ApiRadio $apiRadio, ApiRadioRepository $apiRadioRepository,EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ApiRadioType::class, $apiRadio);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            // $RAW_QUERY = 'UPDATE api_radio SET is_default = 0;';
+            // $statement = $em->getConnection()->prepare($RAW_QUERY);
+            // $statement->execute();
+
+            // $RAW_QUERY = 'UPDATE api_radio SET is_default = 1 WHERE id = '.$apiRadio->getId().';';
+            // $statement = $em->getConnection()->prepare($RAW_QUERY);
+            // $statement->execute();
+
+            // $em->flush();
+            
+
+
+
+
+
              // Ajout dans la base de donnée toutes les infos pour la radio sans les coordonnées
 
              $apiRadioRepository->save($apiRadio, true);
@@ -69,7 +88,7 @@ class ApiRadioUpdateController extends AbstractController
             return $this->redirectToRoute('app_api_radio_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('api_radio/edit.html.twig', [
+        return $this->render('api_radio/edit.html.twig', [
             'api_radio' => $apiRadio,
             'form' => $form,
         ]);

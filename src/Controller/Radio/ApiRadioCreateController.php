@@ -72,7 +72,7 @@ class ApiRadioCreateController extends AbstractController
             return $this->redirectToRoute('app_api_radio_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('api_radio/new.html.twig', [
+        return $this->render('api_radio/new.html.twig', [
             'api_radio' => $apiRadio,
             'form' => $form,
         ]);

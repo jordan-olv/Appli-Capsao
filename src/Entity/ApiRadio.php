@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\ApiRadioRepository;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use App\Repository\ApiRadioRepository;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(repositoryClass: ApiRadioRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(),
+        new GetCollection(),
+    ]
+)]
 class ApiRadio
 {
     #[ORM\Id]
@@ -35,6 +42,9 @@ class ApiRadio
 
     #[ORM\Column(nullable:true)]
     private ?int $rayon;
+
+    #[ORM\Column]
+    private ?bool $isDefault = null;
 
     public function getId(): ?int
     {
@@ -121,6 +131,18 @@ class ApiRadio
     public function setRayon(int $rayon): self
     {
         $this->rayon = $rayon;
+
+        return $this;
+    }
+
+    public function isIsDefault(): ?bool
+    {
+        return $this->isDefault;
+    }
+
+    public function setIsDefault(bool $isDefault): self
+    {
+        $this->isDefault = $isDefault;
 
         return $this;
     }

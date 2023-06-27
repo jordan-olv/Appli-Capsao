@@ -30,7 +30,7 @@ class ApiPodcastCreateController extends AbstractController
             return $this->redirectToRoute('app_api_podcast_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('api_podcast/new.html.twig', [
+        return $this->render('api_podcast/new.html.twig', [
             'api_podcast' => $apiPodcast,
             'form' => $form,
         ]);
