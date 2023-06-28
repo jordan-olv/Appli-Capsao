@@ -23,12 +23,8 @@ class ApiRadioType extends AbstractType
             ->add('rayon',NumberType::class,[
                 'required'=> false,
                 'empty_data' => '15',
-            ]);
-            // ->add('isDefault',CheckboxType::class,[
-            //     'label'=> 'Choisir par défaut ?',
-            //     'required' => false,
-            //     'value' => 1
-            // ]);
+            ])
+            ->add('path');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

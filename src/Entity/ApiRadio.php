@@ -46,6 +46,13 @@ class ApiRadio
     #[ORM\Column]
     private ?bool $isDefault = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $path = null;
+
+    public function __construct(){
+        $this->setIsDefault('0');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -143,6 +150,18 @@ class ApiRadio
     public function setIsDefault(bool $isDefault): self
     {
         $this->isDefault = $isDefault;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
 
         return $this;
     }

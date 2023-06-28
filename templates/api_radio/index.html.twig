@@ -18,6 +18,7 @@
 				<th>coordonnees</th>
 				<th>rayon</th>
 				<th>isDefault</th>
+				<th>path</th>
 				<th>actions</th>
 			</tr>
 		</thead>
@@ -33,6 +34,7 @@
 					<td>{{ api_radio.coordonnees }}</td>
 					<td>{{ api_radio.rayon }}</td>
 					<td>{{ api_radio.isDefault }}</td>
+					<td>{{ api_radio.path }}</td>
 					<td>
 						<a href="{{ path('app_api_radio_edit', {'id': api_radio.id}) }}">edit</a>
 					</td>
