@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Event;
 
 use Exception;
 use App\Entity\ApiEvent;
-use App\Entity\EventFluxRss;
 use App\Form\ApiFluxRssType;
 use App\Repository\ApiEventRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,9 +20,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiEventController extends AbstractController
 {
-    #[Route('/apievent/{id}', name: 'app_api_event')]
-    public function index(Request $request, EventFluxRss $eventFluxRss,EventFluxRssRepository $eventFluxRssRepository,ApiEventRepository $apiEventRepository,EntityManagerInterface $em): Response
+    #[Route('/apievent', name: 'app_api_event')]
+    public function index(Request $request,EventFluxRssRepository $eventFluxRssRepository,ApiEventRepository $apiEventRepository,EntityManagerInterface $em): Response
     {
+        $eventFluxRss = $eventFluxRssRepository->findBy(array('id'=>1));
+        $eventFluxRss = $eventFluxRss[0];
+
         $form = $this->createForm(ApiFluxRssType::class, $eventFluxRss);
         $form->handleRequest($request);
 
@@ -31,30 +33,34 @@ class ApiEventController extends AbstractController
             $eventFluxRssRepository->save($eventFluxRss, true);
         }
 
-        // Truncate de la table api_event
-
-        $RAW_QUERY = 'TRUNCATE TABLE api_event';
-        
-        $statement = $em->getConnection()->prepare($RAW_QUERY);
-        $statement->execute();
-
-        $em->flush();
-
-        // récupération du flux rss venant de la base de donnée
-
-        // $feeds = file_get_contents($eventFluxRss->getLink());
-
-        // dd($feeds);
 
 
         try{
             $feeds = file_get_contents($eventFluxRss->getLink());
-            echo 'ok';
             // rename de la balise <content:encoded> sinon on ne peut récupérer ce qu'elle contient
             $feeds = str_replace("<content:encoded>","<contentEncoded>",$feeds);
             $feeds = str_replace("</content:encoded>","</contentEncoded>",$feeds);
             $rss = simplexml_load_string($feeds, 'SimpleXMLElement', LIBXML_NOCDATA);
             $item = $rss->channel->item;
+
+            // Truncate de la table api_event
+
+            $RAW_QUERY = 'TRUNCATE TABLE api_event';
+            
+            $statement = $em->getConnection()->prepare($RAW_QUERY);
+            $statement->execute();
+
+            $em->flush();
+
+            $apirss = new ApiEvent();
+            $apirss->setTitle('--- Vide ---');
+            $apirss->setDescription('empty data for slider select');
+            $apirss->setPubDate('');
+            $apirss->setLink('');
+            $apirss->setGuid('');
+            $apirss->setUrlImg('');
+            $apirss->setContent('');
+            $apiEventRepository->save($apirss, true);
 
             foreach ($item as $key => $value) {
 
@@ -78,8 +84,6 @@ class ApiEventController extends AbstractController
         }catch (Exception $e) {
         echo 'Exception reçue : ',  $e->getMessage(), "\n";
     }
-
-
 
         return $this->render('api_event/index.html.twig', [
             'eventFluxRss' => $eventFluxRss,

@@ -2,12 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\ApiEventRepository;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SliderRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 
-#[ORM\Entity(repositoryClass: ApiEventRepository::class)]
-class ApiEvent
+#[ORM\Entity(repositoryClass: SliderRepository::class)]
+#[ApiResource(
+    operations:[
+        new Get(),
+        new GetCollection(),
+    ]
+)]
+class Slider
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

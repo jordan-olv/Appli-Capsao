@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\ZoneTexte;
 use App\Form\ZoneTexteType;
 use App\Repository\ZoneTexteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,9 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ZoneTexteController extends AbstractController
 {
-    #[Route('/{id}/zonetexte', name: 'app_zone_texte', methods: ['GET', 'POST'])]
-    public function edit(Request $request, ZoneTexte $zoneTexte, ZoneTexteRepository $zoneTexteRepository): Response
+    #[Route('zonetexte', name: 'app_zone_texte', methods: ['GET', 'POST'])]
+    public function edit(Request $request, ZoneTexteRepository $zoneTexteRepository): Response
     {
+        $zoneTexte = $zoneTexteRepository->findBy(array('id'=>1));
+        $zoneTexte = $zoneTexte[0];
+
         $form = $this->createForm(ZoneTexteType::class, $zoneTexte);
         $form->handleRequest($request);
 

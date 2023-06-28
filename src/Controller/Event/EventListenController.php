@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Controller;tps://capsao.com/rss-feed-34
+namespace App\Controller\Event;
 
-use GuzzleHttp\Client;
-use App\Entity\EventFluxRss;
+use App\Repository\EventFluxRssRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,9 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EventListenController extends AbstractController
 {
-    #[Route('/event/{id}', name: 'app_event_listen')]
-    public function edit(EventFluxRss $eventFluxRss): Response
+    #[Route('/event', name: 'app_event_listen')]
+    public function edit(EventFluxRssRepository $eventFluxRssRepository): Response
     {
+        $eventFluxRss = $eventFluxRssRepository->findBy(array('id'=>1));
+        $eventFluxRss = $eventFluxRss[0];
     
         $feeds = file_get_contents($eventFluxRss->getLink());
         // $feeds = str_replace("<content:encoded>","<contentEncoded>",$feeds);
