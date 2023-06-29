@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ZoneTexte;
 use App\Form\ZoneTexteType;
 use App\Repository\ZoneTexteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,8 +15,18 @@ class ZoneTexteController extends AbstractController
     #[Route('zonetexte', name: 'app_zone_texte', methods: ['GET', 'POST'])]
     public function edit(Request $request, ZoneTexteRepository $zoneTexteRepository): Response
     {
-        $zoneTexte = $zoneTexteRepository->findBy(array('id'=>1));
-        $zoneTexte = $zoneTexte[0];
+        $zoneTexte = $zoneTexteRepository->findBy(array(),array('id'=>'DESC'),1,0);
+        
+        if(isset($zoneTexte[0])){
+            $zoneTexte = $zoneTexte[0];
+        }
+        else{
+            $zoneTexte = new ZoneTexte();
+        }
+
+        
+
+
 
         $form = $this->createForm(ZoneTexteType::class, $zoneTexte);
         $form->handleRequest($request);

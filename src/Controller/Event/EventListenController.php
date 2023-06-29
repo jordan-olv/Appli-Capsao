@@ -16,7 +16,7 @@ class EventListenController extends AbstractController
     #[Route('/event', name: 'app_event_listen')]
     public function edit(EventFluxRssRepository $eventFluxRssRepository): Response
     {
-        $eventFluxRss = $eventFluxRssRepository->findBy(array('id'=>1));
+        $eventFluxRss = $eventFluxRssRepository->findBy(array(),array('id'=>'DESC'),1,0);
         $eventFluxRss = $eventFluxRss[0];
     
         $feeds = file_get_contents($eventFluxRss->getLink());

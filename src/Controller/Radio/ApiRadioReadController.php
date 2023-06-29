@@ -23,7 +23,7 @@ class ApiRadioReadController extends AbstractController
 {
     #[Route('/', name: 'app_api_radio_index', methods: ['GET', 'POST'])]
     public function index(ApiRadioRepository $apiRadioRepository,Request $request,EntityManagerInterface $em): Response
-    {
+    { 
 
 
         $radios = $apiRadioRepository->findAll();

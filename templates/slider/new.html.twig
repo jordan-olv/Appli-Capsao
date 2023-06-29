@@ -5,7 +5,11 @@
 {% block body %}
     <h1>Create new Slider</h1>
 
-    {{ include('slider/_form.html.twig') }}
+    {% if form is defined  %}
+        {{ include('slider/_form.html.twig') }}
 
+    {% endif %}
     <a href="{{ path('app_slider_index') }}">back to list</a>
+    
+
 {% endblock %}
