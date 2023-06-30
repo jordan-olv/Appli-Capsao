@@ -21,7 +21,10 @@ class RadioDefaultType extends AbstractType
                 'class' => ApiRadio::class,
                 'choice_label'=> 'nom',
                 'label' => 'Choisissez une radio',
-                'mapped' => false
+                'mapped' => false,
+                'query_builder' => function(ApiRadioRepository $repo){
+                    return $repo->createQueryBuilder('u')->orderBy('u.isDefault','DESC');
+                }
             ]);
         ;
     }

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ApiRadioType extends AbstractType
 {
@@ -17,7 +18,10 @@ class ApiRadioType extends AbstractType
             ->add('ville')
             ->add('fluxAudio')
             ->add('fluxTxt')
-            ->add('codePostal')
+            ->add('codePostal',TextType::class,[
+                'required'=> false,
+                'empty_data' => '-VIDE-',
+            ])
             ->add('rayon',NumberType::class,[
                 'required'=> false,
                 'empty_data' => '15',
