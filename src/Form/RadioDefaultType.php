@@ -26,7 +26,7 @@ class RadioDefaultType extends AbstractType
                     return $repo->createQueryBuilder('u')->orderBy('u.isDefault','DESC');
                 }
             ]);
-        ;
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void
