@@ -6,8 +6,9 @@ use App\Entity\ApiRadio;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class ApiRadioType extends AbstractType
 {
@@ -26,7 +27,8 @@ class ApiRadioType extends AbstractType
                 'required'=> false,
                 'empty_data' => '15',
             ])
-            ->add('path');
+            ->add('path')
+            ->add('imageFile', FileType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
