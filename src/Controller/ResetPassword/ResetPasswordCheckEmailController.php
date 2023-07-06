@@ -10,7 +10,7 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 #[Route('/reset-password')]
-class ResetPasswordController extends AbstractController
+class ResetPasswordCheckEmailController extends AbstractController
 {
     use ResetPasswordControllerTrait;
 
