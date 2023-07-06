@@ -50,9 +50,9 @@ class ApiRadio
     private ?bool $isDefault = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $path = null;
+    private ?string $imageURL = null;
 
-    #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'path')]
+    #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'imageURL')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
@@ -163,14 +163,14 @@ class ApiRadio
         return $this;
     }
 
-    public function getPath(): ?string
+    public function getImageURL(): ?string
     {
-        return $this->path;
+        return $this->imageURL;
     }
 
-    public function setPath(?string $path): self
+    public function setImageURL(?string $imageURL): self
     {
-        $this->path = $path;
+        $this->imageURL = $imageURL;
 
         return $this;
     }

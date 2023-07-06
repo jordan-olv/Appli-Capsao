@@ -19,7 +19,7 @@ class AppFixtures extends Fixture
         $radio->setCoordonnees('45.7578137,4.8320114');
         $radio->setRayon('15');
         $radio->setIsDefault('0');
-        $radio->setPath('https://www.capsao.com/upload/players/6202865f0fb1c2.45156718.jpg');
+        $radio->setimageURL('https://www.capsao.com/upload/players/6202865f0fb1c2.45156718.jpg');
         $manager->persist($radio);
         $radio = new ApiRadio();
         $radio->setNom('RadioOyonnax');
@@ -30,7 +30,7 @@ class AppFixtures extends Fixture
         $radio->setCoordonnees('46.226480597,5.612552487');
         $radio->setRayon('10');
         $radio->setIsDefault('0');
-        $radio->setPath('https://pbs.twimg.com/profile_images/704216087446069248/SXdeJQpz_400x400.jpg');
+        $radio->setimageURL('https://pbs.twimg.com/profile_images/704216087446069248/SXdeJQpz_400x400.jpg');
         $manager->persist($radio);
 
 

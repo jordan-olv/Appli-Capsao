@@ -27,8 +27,10 @@ class ApiRadioType extends AbstractType
                 'required'=> false,
                 'empty_data' => '15',
             ])
-            ->add('path')
-            ->add('imageFile', FileType::class);
+            // ->add('imageURL')
+            ->add('imageFile', FileType::class,[
+                'required'=> false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
