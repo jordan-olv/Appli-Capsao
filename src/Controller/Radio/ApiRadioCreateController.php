@@ -66,12 +66,9 @@ class ApiRadioCreateController extends AbstractController
                 $results[0]->setCoordonnees('0,0');
             }
 
-            // dd($apiRadio->getimageURL());
             if(!$apiRadio->getimageURL() == null){
                 $apiRadio->setimageURL('https://sc1ihlu1696.universe.wf/Appli-Capsao/public/assets/img/'.$apiRadio->getimageURL());
             }
-
-            
 
             $apiRadioRepository->save($apiRadio, true);
 

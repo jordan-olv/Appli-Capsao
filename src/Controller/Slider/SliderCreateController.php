@@ -4,6 +4,7 @@ namespace App\Controller\Slider;
 
 use App\Entity\Slider;
 use App\Form\SliderType;
+use App\Repository\ApiEventRepository;
 use App\Repository\SliderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +19,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class SliderCreateController extends AbstractController
 {
     #[Route('/new', name: 'app_slider_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SliderRepository $sliderRepository): Response
+    public function new(Request $request, SliderRepository $sliderRepository,ApiEventRepository $apiEventRepository): Response
     {
-        if(!isset($sliderRepository->findAll()[0]))
+        // dd($apiEventRepository->findAll());
+        if(!isset($apiEventRepository->findAll()[0]))
         {
             echo 'Erreur lors de la récupération des informations des événements, vérifiez le lien du flux événement.';
             return $this->render('slider/new.html.twig');
