@@ -58,9 +58,5 @@ class SliderCreateController extends AbstractController
                 'form' => $form,
             ]);
         }
-
-
-
-        
     }
 }

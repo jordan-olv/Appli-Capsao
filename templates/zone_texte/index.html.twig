@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ZoneTexteController!{% endblock %}
+{% block title %}Hello ZoneTexteController!
+{% endblock %}
 
 {% block body %}
+	<main>
+		<div id="conteneur">
+			<h2>Texte page acceuil</h2>
 
-{{ include('zone_texte/_form.html.twig', {'button_label': 'Update'}) }}
+			{{ include('zone_texte/_form.html.twig', {'button_label': 'Update'}) }}
 
+		</div>
+	</main>
 {% endblock %}

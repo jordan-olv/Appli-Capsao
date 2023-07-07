@@ -1,15 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Slider{% endblock %}
+{% block title %}New Slider
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Slider</h1>
+	<main>
+		<div id="conteneur">
+			<h1>Create new Slider</h1>
 
-    {% if form is defined  %}
-        {{ include('slider/_form.html.twig') }}
+			{% if form is defined  %}
+				{{ include('slider/_form.html.twig') }}
 
-    {% endif %}
-    <a href="{{ path('app_slider_index') }}">back to list</a>
-    
+			{% endif %}
 
+			<a href="{{ path('app_slider_index') }}">back to list</a>
+		</div>
+	</main>
 {% endblock %}

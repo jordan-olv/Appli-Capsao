@@ -75,18 +75,12 @@ class SliderReadController extends AbstractController
                     $apirss->setUrlImg($value->enclosure->attributes()->url);
                     $apirss->setContent($value->contentEncoded);
                     ////////////////////////
-    
-                    $apiEventRepository->save($apirss, true);
 
+                    $apiEventRepository->save($apirss, true);
                 }
             }
-
-
-
-
-            
-        }catch (Exception $e) {
-        echo 'Exception reçue : ',  $e->getMessage(), "\n";
+        } catch (Exception $e) {
+            echo 'Exception reçue : ',  $e->getMessage(), "\n";
         }
 
         return $this->render('slider/index.html.twig', [

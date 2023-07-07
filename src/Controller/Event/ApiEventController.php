@@ -92,9 +92,6 @@ class ApiEventController extends AbstractController
         }
 
 
-
-        
-
         return $this->render('api_event/index.html.twig', [
             'eventFluxRss' => $eventFluxRss,
             'form' => $form,

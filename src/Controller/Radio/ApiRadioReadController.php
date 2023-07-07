@@ -55,7 +55,5 @@ class ApiRadioReadController extends AbstractController
             'api_radios' => $apiRadioRepository->findAll(),
             'form' => $form
         ]);
-
-        
     }
 }

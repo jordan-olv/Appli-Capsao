@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New ApiPodcast{% endblock %}
+{% block title %}New ApiPodcast
+{% endblock %}
 
 {% block body %}
-    <h1>Create new ApiPodcast</h1>
+	<main>
+		<div id="conteneurLogin">
+			<h2>Lien Podcast</h2>
+			{{ include('api_podcast/_form.html.twig') }}
 
-    {{ include('api_podcast/_form.html.twig') }}
-
-    <a href="{{ path('app_api_podcast_index') }}">back to list</a>
+			<a href="{{ path('app_api_podcast_index') }}">back to list</a>
+		</div>
+	</main>
 {% endblock %}
