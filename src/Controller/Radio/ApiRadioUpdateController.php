@@ -27,22 +27,6 @@ class ApiRadioUpdateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-            // $RAW_QUERY = 'UPDATE api_radio SET is_default = 0;';
-            // $statement = $em->getConnection()->prepare($RAW_QUERY);
-            // $statement->execute();
-
-            // $RAW_QUERY = 'UPDATE api_radio SET is_default = 1 WHERE id = '.$apiRadio->getId().';';
-            // $statement = $em->getConnection()->prepare($RAW_QUERY);
-            // $statement->execute();
-
-            // $em->flush();
-            
-
-
-
-
-
              // Ajout dans la base de donnée toutes les infos pour la radio sans les coordonnées
 
              $apiRadioRepository->save($apiRadio, true);
