@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ApiRadioUpdateController extends AbstractController
 {
     #[Route('/{id}/edit', name: 'app_api_radio_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, ApiRadio $apiRadio, ApiRadioRepository $apiRadioRepository,EntityManagerInterface $em): Response
+    public function edit($id,Request $request, ApiRadio $apiRadio, ApiRadioRepository $apiRadioRepository,EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ApiRadioType::class, $apiRadio);
         $form->handleRequest($request);
@@ -56,7 +56,7 @@ class ApiRadioUpdateController extends AbstractController
  
              // Récupération du dernier code postal ajouté dans la base de donnée
  
-             $results    = $apiRadioRepository->findBy(array(),array('id'=>'DESC'),1,0);
+             $results    = $apiRadioRepository->findBy(array('id'=>$id));
              $codePostal = $results[0]->getCodePostal();
  
  
