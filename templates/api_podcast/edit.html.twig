@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Modifier Podcast{% endblock %}
 
 {% block body %}
 	<main>
 		<div id="conteneur">
-			<h2>Edit Podcast</h2>
+			<h2>Modifier Podcast</h2>
 
-			{{ include('api_podcast/_form.html.twig', {'button_label': 'Mise à jour'}) }}
+			{{ include('api_podcast/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
 			{{ include('api_podcast/_delete_form.html.twig') }}
 

@@ -15,20 +15,31 @@ class ApiRadioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('ville')
-            ->add('fluxAudio')
-            ->add('fluxTxt')
+            ->add('nom',TextType::class,[
+                'label'=>'Nom de la radio : ',
+            ])
+            ->add('ville',TextType::class,[
+                'label'=>'Nom de la Ville ou du Pays : ',
+            ])
+            ->add('fluxAudio',TextType::class,[
+                'label'=>'Lien du flux audio : ',
+            ])
+            ->add('fluxTxt',TextType::class,[
+                'label'=>'Lien du flux txt : ',
+            ])
             ->add('codePostal',TextType::class,[
+                'label'=>'Code Postal (Si pays laisser vide) : ',
                 'required'=> false,
                 'empty_data' => '-VIDE-',
             ])
             ->add('rayon',NumberType::class,[
+                'label'=>'Rayon en km : ',
                 'required'=> false,
                 'empty_data' => '15',
             ])
             // ->add('imageURL')
             ->add('imageFile', FileType::class,[
+                'label'=>'Upload d\'image de la radio : ',
                 'required'=> false
             ]);
     }

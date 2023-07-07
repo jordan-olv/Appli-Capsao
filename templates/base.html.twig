@@ -18,17 +18,25 @@
 		<header>
 			<h1>Admin Capsao</h1>
 		</header>
+		{% block menu %}
+			{% if app.user %}
+			<p>
+				<a href="{{path('app_menu')}}">HOME</a>
+			</p>
+			{% endif %}
+		{% endblock %}
 		{% block logout %}
 			{% if app.user %}
 				<div class="mb-3">
-					You are logged in as
+					Vous êtes connecté en tant que : 
 					{{ app.user.userIdentifier }},
-					<a href="{{ path('app_logout') }}">Logout</a>
+					<a href="{{ path('app_logout') }}">Se déconnecter</a>
 				</div>
 			{% endif %}
 		{% endblock %}
+		
 		{% block body %}{% endblock %}
-		{% block menu %}
+		{% block menusuppr %}
 			<p>
 				<a href="{{path('app_api_podcast_index')}}">podcast</a>
 				<a href="{{path('app_api_radio_index')}}">radio</a>

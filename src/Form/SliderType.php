@@ -15,16 +15,11 @@ class SliderType extends AbstractType
     {
         $builder
             ->add('id', EntityType::class, [
+                'label' => 'Choix d\'événement : ',
                 'class' => ApiEvent::class,
                 'choice_label'=> 'title',
                 'mapped' => false
             ]);
-            // ->add('nom', EntityType::class, [
-            //     'class' => ApiRadio::class,
-            //     'choice_label'=> 'nom',
-            //     'label' => 'Choisissez une radio',
-            //     'mapped' => false
-            // ]);
         ;
     }
 

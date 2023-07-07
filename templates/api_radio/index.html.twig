@@ -1,56 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ApiRadio index
+{% block title %}Liste Radios
 {% endblock %}
 
 {% block body %}
 	<main>
 		<div id="conteneurFluxRadio">
-			<h2>Listes des flux radios</h2>
+			<h2>Liste des Radios</h2>
 
 			<table class="table">
 				<thead class="thead">
 					<tr>
-						{# <th>Id</th> #}
 						<th>Nom</th>
 						<th>Ville</th>
-						{# <th>fluxAudio</th> #}
-						{# <th>fluxTxt</th> #}
-						<th>codePostal</th>
-						{# <th>coordonnees</th> #}
-						<th>rayon</th>
-						<th>isDefault</th>
-						<th>imageURL</th>
-						<th>actions</th>
+						<th>Code Postal</th>
+						<th>Rayon (km)</th>
+						<th>Image de la radio</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for api_radio in api_radios %}
 						<tr>
-							{# <td>{{ api_radio.id }}</td> #}
 							<td>{{ api_radio.nom }}</td>
 							<td>{{ api_radio.ville }}</td>
-							{# <td>{{ api_radio.fluxAudio }}</td> #}
-							{# <td>{{ api_radio.fluxTxt }}</td> #}
 							<td>{{ api_radio.codePostal }}</td>
-							{# <td>{{ api_radio.coordonnees }}</td> #}
 							<td>{{ api_radio.rayon }}</td>
-							<td>{{ api_radio.isDefault }}</td>
-							<td>{{ api_radio.imageURL }}</td>
+							{% if api_radio.imageURL is null %}
+								{# Affichage de l'iamge par défaut si aucune image n'est rentré #}
+								<td><img src="{{ asset('assets/image/bgdefault.jpg') }}"></td>
+							{% else %}
+								<td><a href="{{ api_radio.imageURL }}"></td>
+							{% endif %}
 							<td>
-								<a href="{{ path('app_api_radio_edit', {'id': api_radio.id}) }}">edit</a>
+								<a href="{{ path('app_api_radio_edit', {'id': api_radio.id}) }}">Modifier</a>
 							</td>
 						</tr>
 					{% else %}
 						<tr>
-							<td colspan="6">no records found</td>
+							<td colspan="6">Aucune information trouvée</td>
 						</tr>
 					{% endfor %}
 				</tbody>
 			</table>
+
+			<p>
+				Radio par défaut : 
+				{% for api_radio in api_radios %}
+					{% if api_radio.isDefault == 1 %}
+						{{ api_radio.nom }}
+					{% endif %}
+				{% endfor %}
+			</p>
+
 			{{ include('api_radio/_form.html.twig') }}
 
-				<a href="{{ path('app_api_radio_new') }}"> Create new</a>
+				<a href="{{ path('app_api_radio_new') }}">Ajouter une nouvelle radio</a>
 		</div>
 	</main>
 {% endblock %}

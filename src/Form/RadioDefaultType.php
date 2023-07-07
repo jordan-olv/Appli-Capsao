@@ -20,7 +20,7 @@ class RadioDefaultType extends AbstractType
             ->add('nom', EntityType::class, [
                 'class' => ApiRadio::class,
                 'choice_label'=> 'nom',
-                'label' => 'Choisissez une radio',
+                'label' => 'Choisissez la radio par défaut : ',
                 'mapped' => false,
                 'query_builder' => function(ApiRadioRepository $repo){
                     return $repo->createQueryBuilder('u')->orderBy('u.isDefault','DESC');
