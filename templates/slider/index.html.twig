@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Slider index
+{% endblock %}
+
+{% block body %}
+	<main>
+		<div id="conteneur">
+			<h2>Slider index</h2>
+
+			<table class="tableSlider">
+				<thead>
+					<tr>
+						{# <th>Id</th> #}
+						<th>Title</th>
+						{# <th>Description</th> #}
+						<th>Date publication</th>
+						{# <th>Link</th> #}
+						{# <th>Guid</th> #}
+						<th>UrlImg</th>
+						{# <th>Content</th> #}
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for slider in sliders %}
+						<tr>
+							{# <td>{{ slider.id }}</td> #}
+							<td>{{ slider.title }}</td>
+							{# <td>{{ slider.description }}</td> #}
+							<td>{{ slider.pubDate }}</td>
+							{# <td>{{ slider.link }}</td> #}
+							{# <td>{{ slider.guid }}</td> #}
+							<td>
+								<img id="imgSlider" src="{{ slider.urlImg }}"/></td>
+							<td id="btnSlider">
+								<a href="{{ path('app_slider_edit', {'id': slider.id}) }}">edit</a>
+								{{ include('slider/_delete_form.html.twig') }}
+							</td>
+						</tr>
+					</tbody>
+				</tbody>
+			</tr>
+
+		{% else %}
+			<tr>
+				<td colspan="9">no records found</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<a href="{{ path('app_slider_new') }}">Create new</a>{% endblock %}

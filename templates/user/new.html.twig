@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Slider
+{% endblock %}
+
+{% block body %}
+	<main>
+		<h2>Create new User</h2>
+
+		{% if form is defined  %}
+			{{ include('slider/_form.html.twig') }}
+
+		{% endif %}
+		<a href="{{ path('app_slider_index') }}">back to list</a>
+
+	</main>
+{% endblock %}

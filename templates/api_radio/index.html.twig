@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ApiRadio index
+{% endblock %}
+
+{% block body %}
+	<main>
+		<div id="conteneurFluxRadio">
+			<h2>Listes des flux radios</h2>
+
+			<table class="table">
+				<thead class="thead">
+					<tr>
+						{# <th>Id</th> #}
+						<th>Nom</th>
+						<th>Ville</th>
+						{# <th>fluxAudio</th> #}
+						{# <th>fluxTxt</th> #}
+						<th>codePostal</th>
+						{# <th>coordonnees</th> #}
+						<th>rayon</th>
+						<th>isDefault</th>
+						{# <th>path</th> #}
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for api_radio in api_radios %}
+						<tr>
+							{# <td>{{ api_radio.id }}</td> #}
+							<td>{{ api_radio.nom }}</td>
+							<td>{{ api_radio.ville }}</td>
+							{# <td>{{ api_radio.fluxAudio }}</td> #}
+							{# <td>{{ api_radio.fluxTxt }}</td> #}
+							<td>{{ api_radio.codePostal }}</td>
+							{# <td>{{ api_radio.coordonnees }}</td> #}
+							<td>{{ api_radio.rayon }}</td>
+							<td>{{ api_radio.isDefault }}</td>
+							{# <td>{{ api_radio.path }}</td> #}
+							<td>
+								<a href="{{ path('app_api_radio_edit', {'id': api_radio.id}) }}">edit</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="6">no records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{{ include('api_radio/_form.html.twig') }}
+			{# templates/persons.html.twig #}
+
+			{# {{ form_start(form) }}
+									{{ form_row(form.name) }}
+									{{ form_end(form) }} #}
+
+			{# <h2>Liste des personnes :</h2>
+									<ul>
+									    {% for person in persons %}
+									        <li>{{ person.name }} - {% if person.isSelected %}Choisie{% else %}Non choisie{% endif %}</li>
+									    {% endfor %}
+									</ul> #}
+				<a href="{{ path('app_api_radio_new') }}"> Create new</a>
+		</div>
+	</main>
+{% endblock %}

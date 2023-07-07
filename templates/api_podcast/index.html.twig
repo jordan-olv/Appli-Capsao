@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ApiPodcast index
+{% endblock %}
+
+{% block body %}
+	<main>
+		<div id="conteneur">
+			<h2>Liste des Podcast</h2>
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Link</th>
+						<th>Created_at</th>
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for api_podcast in api_podcasts %}
+						<tr>
+							<td>{{ api_podcast.id }}</td>
+							<td>{{ api_podcast.link }}</td>
+							<td>{{ api_podcast.createdAt ? api_podcast.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>
+								<a href="{{ path('app_api_podcast_edit', {'id': api_podcast.id}) }}">edit</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="4">no records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<a href="{{ path('app_api_podcast_new') }}">Create new</a>
+		</div>
+	</main>
+{% endblock %}
