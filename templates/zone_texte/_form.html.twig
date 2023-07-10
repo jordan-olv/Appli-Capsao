@@ -1,4 +1,21 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+
+    <script>
+        const input_titre = document.querySelector("#zone_texte_titre");
+        const input_texte = document.querySelector("#zone_texte_texte");
+        const text_titre = input_titre.value;
+        const text_texte = input_texte.value;
+        const btn = document.querySelector(".btn");
+
+
+        btn.addEventListener("click",()=>{
+            if (!confirm("Etes vous sûr de vouloir le modifier ?")) {
+                input_titre.value = text_titre;
+                input_texte.value = text_texte;
+            }
+        })
+    </script>
+        
 {{ form_end(form) }}
