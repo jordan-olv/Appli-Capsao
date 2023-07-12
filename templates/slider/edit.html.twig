@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier Slider{% endblock %}
+{% block title %}Modifier Slider
+{% endblock %}
 
 {% block body %}
-    <h1>Modification du Slider</h1>
+<main>
+	<div id="conteneur">
+		<h2>Modification du Slider</h2>
 
-    {{ include('slider/_form.html.twig', {'button_label': 'Ajouter l\'événement'}) }}
-
-    <a href="{{ path('app_slider_index') }}">Retour à la liste</a>
+		{{ include('slider/_form.html.twig', {'button_label': 'Ajouter l\'événement'}) }}
 
     {{ include('slider/_delete_form.html.twig') }}
+
+    <a href="{{ path('app_slider_index') }}">Retour à la liste</a>
+    </div>
+    </main>
 {% endblock %}

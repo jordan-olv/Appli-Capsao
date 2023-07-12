@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Flux événement{% endblock %}
+{% block title %}Flux événement
+{% endblock %}
 
 
 {% block body %}
-
-{{ include('api_event/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
+	<main>
+		<div id="conteneur">
+			{{ include('api_event/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+		</div>
+	</main>
 {% endblock %}

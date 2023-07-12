@@ -11,7 +11,7 @@
 
 		{% if app.user %}
 			<div class="mb-3">
-				Vous êtes connecté en tant que : 
+				Vous êtes connecté en tant que :
 				{{ app.user.userIdentifier }},
 				<a href="{{ path('app_logout') }}">Se déconnecter</a>
 			</div>
@@ -19,17 +19,18 @@
 		<main>
 			<div id="conteneur">
 				<h2 class="h3 mb-3 font-weight-normal">Se connecter</h2>
-				<label for="inputEmail">Email : </label>
+				<label for="inputEmail">Email :
+				</label>
 				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-				<label for="inputPassword">Mot de passe : </label>
+				<label for="inputPassword">Mot de passe :
+				</label>
 				<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-				<input
-				type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 				<a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
 
-				<button class="btn btn-lg btn-primary" type="submit">
+				<button id="btn-connection" class="btn btn-lg btnPrimary" type="submit">
 					Se connecter
 				</button>
 			</form>

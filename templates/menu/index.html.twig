@@ -1,18 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Home
+{% endblock %}
 
 {% block body %}
-    {% if is_granted('ROLE_USER') %}
-        <a href="{{path('app_api_podcast_index')}}">Gérer les podcasts</a>   
-        <a href="{{path('app_zone_texte')}}">Gérer le texte de description</a>
-        <a href="{{path('app_slider_index')}}">Gérer le Slider</a>        
-    {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{path('app_api_radio_index')}}">Gérer les radios</a>
-        <a href="{{path('app_user_index')}}">Liste des utilisateurs</a>
-        <a href="{{path('app_register')}}">Création nouvel utilisateur</a>
-        <a href="{{path('app_api_event')}}">Gérer lien événement</a>
-    {% endif %}
-
+	<main>
+		<div id="conteneur">
+			{% if is_granted('ROLE_USER') %}
+				<a class="btn btnPrimary btnMenu" href="{{path('app_api_podcast_index')}}">Les podcasts</a>
+				<a class="btn btnPrimary btnMenu" href="{{path('app_zone_texte')}}">Texte d'acceuil</a>
+				<a class="btn btnPrimary btnMenu" href="{{path('app_slider_index')}}">Le Slider</a>
+			{% endif %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<a class="btn btnPrimary btnMenu" href="{{path('app_api_radio_index')}}">Les radios</a>
+				<a class="btn btnPrimary btnMenu" href="{{path('app_user_index')}}">Les utilisateurs</a>
+				<a class="btn btnPrimary btnMenu" href="{{path('app_register')}}">Création d'utilisateur</a>
+				<a class="btn btnPrimary btnMenu" href="{{path('app_api_event')}}">Lien événement</a>
+			{% endif %}
+		</div>
+	</main>
 {% endblock %}

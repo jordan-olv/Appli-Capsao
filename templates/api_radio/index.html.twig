@@ -5,7 +5,7 @@
 
 {% block body %}
 	<main>
-		<div id="conteneurFluxRadio">
+		<div id="conteneur">
 			<h2>Liste des Radios</h2>
 
 			<table class="table">
@@ -30,22 +30,24 @@
 								{# Affichage de l'iamge par défaut si aucune image n'est rentré #}
 								<td><img src="{{ asset('assets/image/bgdefault.jpg') }}"></td>
 							{% else %}
-								<td><a href="{{ api_radio.imageURL }}"></td>
-							{% endif %}
-							<td>
-								<a href="{{ path('app_api_radio_edit', {'id': api_radio.id}) }}">Modifier</a>
-							</td>
-						</tr>
-					{% else %}
-						<tr>
-							<td colspan="6">Aucune information trouvée</td>
-						</tr>
-					{% endfor %}
+								<td>
+									<a href="{{ api_radio.imageURL }}"></td>
+								{% endif %}
+								<td>
+									<a href="{{ path('app_api_radio_edit', {'id': api_radio.id}) }}">Modifier</a>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="6">Aucune information trouvée</td>
+							</tr>
+						{% endfor %}
+					</tbody>
 				</tbody>
 			</table>
 
 			<p>
-				Radio par défaut : 
+				Radio par défaut :
 				{% for api_radio in api_radios %}
 					{% if api_radio.isDefault == 1 %}
 						{{ api_radio.nom }}
@@ -55,7 +57,7 @@
 
 			{{ include('api_radio/_form.html.twig') }}
 
-				<a href="{{ path('app_api_radio_new') }}">Ajouter une nouvelle radio</a>
+			<a href="{{ path('app_api_radio_new') }}">Ajouter une nouvelle radio</a>
 		</div>
 	</main>
 {% endblock %}

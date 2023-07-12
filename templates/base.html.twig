@@ -18,23 +18,26 @@
 		<header>
 			<h1>Admin Capsao</h1>
 		</header>
-		{% block menu %}
-			{% if app.user %}
-			<p>
-				<a href="{{path('app_menu')}}">HOME</a>
-			</p>
-			{% endif %}
-		{% endblock %}
-		{% block logout %}
-			{% if app.user %}
-				<div class="mb-3">
-					Vous êtes connecté en tant que : 
-					{{ app.user.userIdentifier }},
-					<a href="{{ path('app_logout') }}">Se déconnecter</a>
-				</div>
-			{% endif %}
-		{% endblock %}
-		
+		<div class="headerContent">
+			{% block menu %}
+				{% if app.user %}
+					<p>
+						<a href="{{path('app_menu')}}">
+							<img class="iconHome" src="{{ asset('assets/image/home.png') }}"/>
+						</a>
+					</p>
+				{% endif %}
+			{% endblock %}
+			{% block logout %}
+				{% if app.user %}
+					<div class=" mb-3">
+						Vous êtes connecté en tant que :
+						{{ app.user.userIdentifier }},
+						<a href="{{ path('app_logout') }}">Se déconnecter</a>
+					</div>
+				{% endif %}
+			{% endblock %}
+		</div>
 		{% block body %}{% endblock %}
 		{% block menusuppr %}
 			<p>
@@ -51,4 +54,4 @@
 			</p>
 		{% endblock %}
 	</body>
-</html>
+</html></body></html>

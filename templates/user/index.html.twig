@@ -5,7 +5,7 @@
 
 {% block body %}
 	<main>
-		<div id="conteneurUser">
+		<div id="conteneur">
 			<h2>Liste des Utilisateurs</h2>
 			<table class="table" class="thead">
 				<thead>
@@ -20,9 +20,9 @@
 						<tr>
 							<td>{{ user.email }}</td>
 							<td>
-							{% if user.roles == ["ROLE_ADMIN","ROLE_USER"] %}
-								Admin
-							{% endif %}
+								{% if user.roles == ["ROLE_ADMIN","ROLE_USER"] %}
+									Admin
+								{% endif %}
 							</td>
 							<td>{{ include('user/_delete_form.html.twig') }}
 							</td>
