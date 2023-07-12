@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import "./utils/reset";
+
+@import "./components/TheHeader";
+@import "./components/TheContent";
+@import "./components/TheNav";
+
+
+
+//ded
+body {
+  font-family: "Kanit", sans-serif;
+  overflow-x: hidden;
+  // background-image: url("@/assets/images/pattern.jpg");
+}
+
+
+.content {
+  padding: 20px;
+}
+
+.ion-page {
+  background: rgba(255, 255, 255, 0);
+}
+
+section {
+  height: 100%;
+  // background: #f9f9f9;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 120px;
+  // background-image: url("@/assets/images/pattern.jpg");
+}
+
+.content-view {
+  // padding-bottom: 30px;
+  width: 82%;
+
+  /* The `&.home` selector is used to target an element with the class "home" that is a child of the
+`.content-view` element. When this selector is applied, it sets the width of the element to 100%.
+This is useful for styling specific elements differently based on their class. */
+  &.home {
+    width: 100%;
+  }
+}
+
+h2 {
+  color: #303030;
+  font-size: 20px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.section--title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  margin-bottom: 7px;
+}
+
+.hidden {
+  display: none;
+}
