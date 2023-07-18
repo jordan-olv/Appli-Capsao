@@ -132,6 +132,10 @@ nav a {
     margin: 10px;
 }
 
+.btn:hover{
+    cursor: pointer;
+}
+
 img:not(.iconHome) {
     height: 50px;
     width: 50px;
@@ -199,6 +203,12 @@ form {
     padding: 3%;
 }
 
+.formUser>div{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /*-------fin partie commune au form----*/
 
 /* zone texte sans Texte page d'acceuil */
@@ -216,7 +226,7 @@ form {
 /*roles user dans user*/
 #conteneur>form>div:nth-child(3) {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
 }
 
