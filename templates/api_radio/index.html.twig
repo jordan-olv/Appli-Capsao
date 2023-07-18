@@ -14,6 +14,7 @@
 						<th>Nom</th>
 						<th>Ville</th>
 						<th>Code Postal</th>
+						<th>Flux radio</th>
 						<th>Rayon (km)</th>
 						<th>Image de la radio</th>
 						<th>Actions</th>
@@ -25,6 +26,7 @@
 							<td>{{ api_radio.nom }}</td>
 							<td>{{ api_radio.ville }}</td>
 							<td>{{ api_radio.codePostal }}</td>
+							<td>{{ api_radio.fluxAudio }}</td>
 							<td>{{ api_radio.rayon }}</td>
 							{% if api_radio.imageURL is null %}
 								{# Affichage de l'iamge par défaut si aucune image n'est rentré #}

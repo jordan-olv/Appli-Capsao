@@ -9,7 +9,7 @@
 			{% if is_granted('ROLE_USER') %}
 				<a class="btn btnPrimary btnMenu" href="{{path('app_api_podcast_index')}}">Les podcasts</a>
 				<a class="btn btnPrimary btnMenu" href="{{path('app_zone_texte')}}">Texte d'acceuil</a>
-				<a class="btn btnPrimary btnMenu" href="{{path('app_slider_index')}}">Le Slider</a>
+				<a class="btn btnPrimary btnMenu" href="{{path('app_slider_index')}}">Le slider</a>
 			{% endif %}
 			{% if is_granted('ROLE_ADMIN') %}
 				<a class="btn btnPrimary btnMenu" href="{{path('app_api_radio_index')}}">Les radios</a>

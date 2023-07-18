@@ -46,7 +46,7 @@ class RegistrationFormType extends AbstractType
                 'expanded' => true,
                 'choices' => [
                     'ADMIN' => 'ROLE_ADMIN'
-                ]
+                ],
             ])
         ;
     }
@@ -55,6 +55,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'choices' => 'ROLE_USER',
         ]);
     }
 }

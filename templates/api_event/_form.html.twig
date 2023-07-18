@@ -5,14 +5,14 @@
 
 <script>
 	const input = document.querySelector("#api_flux_rss_link");
-const text = input.value;
-const btn = document.querySelector(".btn");
+	const text = input.value;
+	const btn = document.querySelector(".btn");
 
-btn.addEventListener("click", () => {
-if (!confirm("Etes vous sûr de vouloir le modifier ?")) {
-input.value = text;
-}
-})
+	btn.addEventListener("click", () => {
+		if (!confirm("Etes vous sûr de vouloir le modifier ?")) {
+			input.value = text;
+		}
+	})
 </script>
 
 

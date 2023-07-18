@@ -1,4 +1,18 @@
 {{ form_start(form) }}
 {{ form_widget(form) }}
 <button class="btn btnPrimary">{{ button_label|default('Sauvegarder') }}</button>
+
+<script>
+	const input = document.querySelector("#radio_default_nom");
+	const text = input.value;
+	const btn = document.querySelector(".btn");
+
+	btn.addEventListener("click", () => {
+		if (!confirm("Etes vous sûr de vouloir le modifier ?")) {
+			input.value = text;
+		}
+	})
+</script>
+
 {{ form_end(form) }}
+

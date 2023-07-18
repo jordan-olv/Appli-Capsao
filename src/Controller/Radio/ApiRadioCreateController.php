@@ -67,7 +67,7 @@ class ApiRadioCreateController extends AbstractController
             }
 
             if(!$apiRadio->getimageURL() == null){
-                $apiRadio->setimageURL('https://sc1ihlu1696.universe.wf/Appli-Capsao/public/assets/img/'.$apiRadio->getimageURL());
+                $apiRadio->setimageURL('https://latinoclub.fr/assets/img/'.$apiRadio->getimageURL());
             }
 
             $apiRadioRepository->save($apiRadio, true);

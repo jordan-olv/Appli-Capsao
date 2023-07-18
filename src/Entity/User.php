@@ -29,6 +29,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    public function __construct(){
+        // $this->setRoles(array('ROLE_JDUDJ'));
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +75,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRoles(): self
+    {
+
+        dd($this);
+        if(!$this){
+            $this->roles[] = 'ROLE_USER';
+        }
 
         return $this;
     }
