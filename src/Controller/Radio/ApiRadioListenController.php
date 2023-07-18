@@ -17,7 +17,7 @@ use GuzzleHttp\Client;
 #[Route('admin/radio')]
 class ApiRadioListenController extends AbstractController
 {
-    #[Route('/{id}/listen', name: 'app_api_radio_listen', methods: ['GET', 'POST'])]
+    #[Route('/listen/{id}', name: 'app_api_radio_listen', methods: ['GET', 'POST'])]
     public function edit(ApiRadio $apiRadio): Response
     {
         $fluxTxt = $apiRadio->getFluxTxt();
