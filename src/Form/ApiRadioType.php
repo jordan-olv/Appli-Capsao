@@ -23,6 +23,7 @@ class ApiRadioType extends AbstractType
             ])
             ->add('fluxAudio',TextType::class,[
                 'label'=>'Lien du flux audio : ',
+                'help'=>'( Mettre l\'url avec un https )'
             ])
             ->add('fluxTxt',TextType::class,[
                 'label'=>'Lien du flux txt : ',
@@ -37,7 +38,6 @@ class ApiRadioType extends AbstractType
                 'required'=> false,
                 'empty_data' => '15',
             ])
-            // ->add('imageURL')
             ->add('imageFile', FileType::class,[
                 'label'=>'Upload d\'image de la radio : ',
                 'required'=> false

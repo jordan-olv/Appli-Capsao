@@ -21,6 +21,7 @@ class ApiRadioUpdateController extends AbstractController
     #[Route('/{id}/edit', name: 'app_api_radio_edit', methods: ['GET', 'POST'])]
     public function edit($id,Request $request, ApiRadio $apiRadio, ApiRadioRepository $apiRadioRepository,EntityManagerInterface $em): Response
     {
+
         $form = $this->createForm(ApiRadioType::class, $apiRadio);
         $form->handleRequest($request);
 
@@ -65,8 +66,8 @@ class ApiRadioUpdateController extends AbstractController
                 // Si non trouvé ajouter les coordonnées 0,0
                  $results[0]->setCoordonnees('0,0');
              }
- 
-             if(!$apiRadio->getimageURL() == null){
+
+             if(!$form->get('imageFile')->getData() == null){
                 $apiRadio->setimageURL('https://latinoclub.fr/assets/img/'.$apiRadio->getimageURL());
             }
  
