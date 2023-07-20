@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiEventController extends AbstractController
 {
-    #[Route('/evenement', name: 'app_api_event')]
+    #[Route('admin/evenement', name: 'app_api_event')]
     public function index(Request $request,EventFluxRssRepository $eventFluxRssRepository,ApiEventRepository $apiEventRepository,EntityManagerInterface $em): Response
     {
         $eventFluxRss = $eventFluxRssRepository->findBy(array(),array('id'=>'DESC'),1,0);
