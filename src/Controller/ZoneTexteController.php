@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ZoneTexteController extends AbstractController
 {
-    #[Route('zonetexte', name: 'app_zone_texte', methods: ['GET', 'POST'])]
+    #[Route('admin/zonetexte', name: 'app_zone_texte', methods: ['GET', 'POST'])]
     public function edit(Request $request, ZoneTexteRepository $zoneTexteRepository): Response
     {
         $zoneTexte = $zoneTexteRepository->findBy(array(),array('id'=>'DESC'),1,0);

@@ -8,6 +8,8 @@
 		<div id="conteneur">
 			<h2>Liste événements dans le Slider</h2>
 
+			<a class="btn btnPrimary" href="{{ path('app_slider_new') }}">Ajouter un événement au slider</a>
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -18,7 +20,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for slider in sliders %}
+					{% for slider in sliders|reverse %}
 						<tr>
 							<td>{{ slider.title }}</td>
 							<td>{{ slider.pubDate }}</td>
@@ -29,16 +31,14 @@
 								{{ include('slider/_delete_form.html.twig') }}
 							</td>
 						</tr>
-					</tbody>
+
+					{% else %}
+						<tr>
+							<td colspan="9">Aucune information trouvée</td>
+						</tr>
+					{% endfor %}
 				</tbody>
-			</tr>
+			</table>	
 
-		{% else %}
-			<tr>
-				<td colspan="9">Aucune information trouvée</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
 
-<a class="btn btnPrimary" href="{{ path('app_slider_new') }}">Ajouter un événement au slider</a>{% endblock %}
+{% endblock %}

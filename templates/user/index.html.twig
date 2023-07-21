@@ -7,6 +7,9 @@
 	<main>
 		<div id="conteneur">
 			<h2>Liste des Utilisateurs</h2>
+
+			<a href="{{ path('app_register') }}">Ajout d'un nouvel utilisateur</a>
+			
 			<table class="table" class="thead">
 				<thead>
 					<tr>
@@ -16,7 +19,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for user in users %}
+					{% for user in users|reverse %}
 						<tr>
 							<td>{{ user.email }}</td>
 							<td>
@@ -34,7 +37,7 @@
 					{% endfor %}
 				</tbody>
 			</table>
-			<a href="{{ path('app_register') }}">Ajout d'un nouvel utilisateur</a>
+			
 		</div>
 	</main>
 {% endblock %}

@@ -8,6 +8,8 @@
 		<div id="conteneur">
 			<h2>Liste des Podcasts</h2>
 
+			<a href="{{ path('app_api_podcast_new') }}">Ajouter un nouveau podcast</a>
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -16,7 +18,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for api_podcast in api_podcasts %}
+					{% for api_podcast in api_podcasts|reverse %}
 						<tr>
 							<td>{{ api_podcast.link }}</td>
 							<td>
@@ -31,7 +33,7 @@
 				</tbody>
 			</table>
 
-			<a href="{{ path('app_api_podcast_new') }}">Ajouter un nouveau podcast</a>
+			
 		</div>
 	</main>
 {% endblock %}

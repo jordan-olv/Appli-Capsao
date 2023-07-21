@@ -22,7 +22,11 @@ class EventListenController extends AbstractController
         $feeds = file_get_contents($eventFluxRss->getLink());
         // $feeds = str_replace("<content:encoded>","<contentEncoded>",$feeds);
         // $feeds = str_replace("</content:encoded>","</contentEncoded>",$feeds);
-        $rss = simplexml_load_string($feeds, 'SimpleXMLElement', LIBXML_NOCDATA);
+        // $rss = simplexml_load_string($feeds, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+
+        // html_entity_decode pose probleme pour la transformation en objet
+        // $feeds = html_entity_decode($feeds);
 
 
         // Envoyer le contenu à l'application front-end (Vue.js) sous forme de réponse JSON, par exemple

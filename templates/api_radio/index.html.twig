@@ -8,6 +8,19 @@
 		<div id="conteneur">
 			<h2>Liste des Radios</h2>
 
+			<p>
+				Radio par défaut :
+				{% for api_radio in api_radios %}
+					{% if api_radio.isDefault == 1 %}
+						{{ api_radio.nom }}
+					{% endif %}
+				{% endfor %}
+			</p>
+
+			{{ include('api_radio/_form.html.twig') }}
+
+			<a href="{{ path('app_api_radio_new') }}">Ajouter une nouvelle radio</a>
+
 			<table class="table">
 				<thead class="thead">
 					<tr>
@@ -21,7 +34,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for api_radio in api_radios %}
+					{% for api_radio in api_radios|reverse %}
 						<tr>
 							<td>{{ api_radio.nom }}</td>
 							<td>{{ api_radio.ville }}</td>
@@ -49,18 +62,7 @@
 				</tbody>
 			</table>
 
-			<p>
-				Radio par défaut :
-				{% for api_radio in api_radios %}
-					{% if api_radio.isDefault == 1 %}
-						{{ api_radio.nom }}
-					{% endif %}
-				{% endfor %}
-			</p>
 
-			{{ include('api_radio/_form.html.twig') }}
-
-			<a href="{{ path('app_api_radio_new') }}">Ajouter une nouvelle radio</a>
 		</div>
 	</main>
 {% endblock %}
