@@ -27,6 +27,7 @@ class ApiRadioType extends AbstractType
             ])
             ->add('fluxTxt',TextType::class,[
                 'label'=>'Lien du flux txt : ',
+                'required' => false
             ])
             ->add('codePostal',TextType::class,[
                 'label'=>'Code Postal (Si pays laisser vide) : ',

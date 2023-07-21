@@ -34,7 +34,7 @@ class ApiRadio
     #[ORM\Column(length: 200)]
     private ?string $fluxAudio = null;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(length: 200,nullable:true)]
     private ?string $fluxTxt = null;
 
     #[ORM\Column(length: 6)]
