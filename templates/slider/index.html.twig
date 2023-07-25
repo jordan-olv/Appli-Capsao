@@ -15,7 +15,7 @@
 					<tr>
 						<th>Titre</th>
 						<th>Date publication</th>
-						<th>Image de l'événement</th>
+						<th>Lien</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -23,7 +23,7 @@
 					{% for slider in sliders|reverse %}
 						<tr>
 							<td>{{ slider.title }}</td>
-							<td>{{ slider.pubDate }}</td>
+							<td><a href="{{ slider.link }}">{{ slider.link }}</a></td>
 							<td>
 								<img id="imgSlider" src="{{ slider.urlImg }}"/></td>
 							<td id="btnSlider">

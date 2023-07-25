@@ -50,6 +50,9 @@ class Slider
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'urlImg')]
     private ?File $imageFile = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $sliderOrder = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -161,5 +164,17 @@ class Slider
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function getSliderOrder(): ?int
+    {
+        return $this->sliderOrder;
+    }
+
+    public function setSliderOrder(int $sliderOrder): self
+    {
+        $this->sliderOrder = $sliderOrder;
+
+        return $this;
     }
 }
