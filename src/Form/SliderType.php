@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SliderType extends AbstractType
 {
@@ -19,7 +21,19 @@ class SliderType extends AbstractType
                 'class' => ApiEvent::class,
                 'choice_label'=> 'title',
                 'mapped' => false
-            ]);
+            ])
+            ->add('link', TextType::class, [
+                'label' => 'Lien événement : ',
+                'label_attr' => ['class' => 'formVide'],
+                'attr' => ['class' => 'formVide'],
+                'required' => false
+            ])
+            ->add('imageFile', FileType::class,[
+                'label'=>'Upload d\'image de l\'événement : ',
+                'label_attr' => ['class' => 'formVide'],
+                'attr' => ['class' => 'formVide'],
+                'required'=> false
+            ])
         ;
     }
 

@@ -41,13 +41,18 @@ class SliderCreateController extends AbstractController
                 $slider->setTitle($data->getTitle());
                 $slider->setDescription($data->getDescription());
                 $slider->setPubDate($data->getPubDate());
-                $slider->setLink($data->getLink());
                 $slider->setGuid($data->getGuid());
-                $slider->setUrlImg($data->getUrlImg());
                 $slider->setContent($data->getContent());
 
-
-
+                if($data->getTitle() === '--- Vide ---'){  
+                    $slider->setLink($form->get('link')->getData());
+                    $slider->setUrlImg($form->get('imageFile')->getData());
+                }
+                else{
+                    $slider->setLink($data->getLink());
+                    $slider->setUrlImg($data->getUrlImg());
+                }
+                
 
                 $sliderRepository->save($slider, true);
 

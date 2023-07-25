@@ -20,7 +20,7 @@
 				<tbody>
 					{% for api_podcast in api_podcasts|reverse %}
 						<tr>
-							<td>{{ api_podcast.link }}</td>
+							<td><a href="{{ api_podcast.link }}">{{ api_podcast.link }}</a></td>
 							<td>
 								<a class="btn btnPrimary" href="{{ path('app_api_podcast_edit', {'id': api_podcast.id}) }}">Modifier</a>
 							</td>

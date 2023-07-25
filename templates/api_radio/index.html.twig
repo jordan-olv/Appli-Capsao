@@ -39,10 +39,10 @@
 							<td>{{ api_radio.nom }}</td>
 							<td>{{ api_radio.ville }}</td>
 							<td>{{ api_radio.codePostal }}</td>
-							<td>{{ api_radio.fluxAudio }}</td>
+							<td><a href="{{ api_radio.fluxAudio }}">{{ api_radio.fluxAudio }}</a></td>
 							<td>{{ api_radio.rayon }}</td>
 							{% if api_radio.imageURL is null %}
-								{# Affichage de l'iamge par défaut si aucune image n'est rentré #}
+								{# Affichage de l'image par défaut si aucune image n'est rentré #}
 								<td><img src="{{ asset('assets/image/bgdefault.jpg') }}"></td>
 							{% else %}
 								<td>
