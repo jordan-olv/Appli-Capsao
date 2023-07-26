@@ -134,7 +134,7 @@ class Slider
 
     public function seturlImg(?string $urlImg): self
     {
-        $this->urlImg = 'https://latinoclub.fr/assets/img/'.$urlImg;
+        $this->urlImg = $urlImg;
 
         return $this;
     }

@@ -47,6 +47,8 @@ class SliderCreateController extends AbstractController
                 if($data->getTitle() === '--- Vide ---'){  
                     $slider->setLink($form->get('link')->getData());
                     $slider->setUrlImg($form->get('imageFile')->getData());
+                    $sliderRepository->save($slider, true);
+                    $slider->setUrlImg('https://latinoclub.fr/assets/img/'.$slider->geturlImg());
                 }
                 else{
                     $slider->setLink($data->getLink());
@@ -54,6 +56,7 @@ class SliderCreateController extends AbstractController
                 }
                 
 
+                
                 $sliderRepository->save($slider, true);
 
                 return $this->redirectToRoute('app_slider_index', [], Response::HTTP_SEE_OTHER);
