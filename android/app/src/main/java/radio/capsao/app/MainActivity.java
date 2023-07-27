@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package radio.capsao.app;
 
 import com.getcapacitor.BridgeActivity;
 

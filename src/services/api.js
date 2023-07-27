@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { parseString } from "xml2js";
+// import { CapacitorHttp } from '@capacitor/core';
 
 export const api = axios.create({
-  baseURL: 'https://sc1ihlu1696.universe.wf/Appli-Capsao/public/api/',
+  baseURL: 'https://latinoclub.fr/api',
 });
 
 export async function fetchData(url) {
@@ -32,7 +33,6 @@ export const fetchRss = async (url) => {
     if (response.status == 200 || response.status == 201) {
       parseString(response.data, (err, result) => {
         if (err) {
-          console.error(err);
         } else {
           array = result.rss.channel[0];
         }

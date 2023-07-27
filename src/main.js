@@ -4,6 +4,7 @@ import App from './App.vue';
 import router from './router';
 import Player from '@/components/ThePlayer.vue';
 import { IonicVue } from '@ionic/vue';
+import { usePlayerStore } from "@/store/radioPlayer";
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -34,6 +35,9 @@ const app = createApp(App)
   .use(IonicVue)
   .use(pinia)
   .use(router);
+
+const store = usePlayerStore();
+store.init();
 
 app.component('Player', Player);
 

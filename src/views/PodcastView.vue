@@ -1,20 +1,32 @@
 <template>
   <ion-page>
+    <Loading v-if="isLoading" />
     <section class="podcast">
       <div class="content-view">
         <div class="list">
           <h2>Nos Podcasts</h2>
           <ul>
-            <li v-for="item in episodes" @click="navigateTo(item)">
+            <li
+              v-for="item in episodes"
+              @click="navigateTo(item)"
+              :key="item.id"
+            >
               <!-- <router-link class="li_content" to=""> -->
               <!-- <div class="li__content"> -->
-              <img :src="item['itunes:image'][0].$['href']" alt="" />
+              <img
+                class="li_img"
+                :src="item['itunes:image'][0].$['href']"
+                alt=""
+              />
+
               <!-- </div> -->
-              <h3>{{ item.title[0] }}</h3>
               <div class="btn_pod">
-                <button>Play</button>
-                <button @click="shareLink(item)">Share</button>
+                <button @click="shareLink(item)" @click.stop="">
+                  <img src="@/assets/svg/share.svg" alt="" />
+                </button>
               </div>
+              <h3>{{ item.title[0] }}</h3>
+
               <!-- </router-link> -->
             </li>
           </ul>
@@ -26,82 +38,86 @@
 </template>
 
 <script setup>
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/vue";
-import { ref, onMounted, reactive } from "vue";
-import ThePlayer from "@/components/ThePlayer.vue";
+import { IonPage } from "@ionic/vue";
+import { ref, onMounted, reactive, computed } from "vue";
 import { fetchData, fetchRss } from "@/services/api.js";
-import axios from "axios";
+import { usePlayerStore } from "@/store/radioPlayer";
 import { Share } from "@capacitor/share";
 import { useRouter } from "vue-router";
+import Loading from "@/components/Loading.vue";
 
 const router = useRouter();
-
+const store = usePlayerStore();
+const isLoading = ref(true);
 const podcasts = ref([]);
 
 const shareLink = async (pod) => {
-  // Share url only
-  await Share.share({
-    url: "http://ionicframework.com/",
-  });
+  try {
+    await Share.share({
+      url: pod.link[0],
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
 };
 
 const navigateTo = (item) => {
   console.log("item", item);
-  router.push({ name: "PodcastId", state: { id: "dd" } });
+  router.push("/podcast/" + item.id);
 };
 
 const episodes = reactive([]);
 onMounted(async () => {
-  // podcasts.value = await fetchData("api_podcasts");
-  // console.log("aa", podcasts.value);
+  podcasts.value = await fetchData("api_podcasts");
+  console.log("aa", podcasts.value);
 
-  // podcasts.value.forEach(async (podcast) => {
-  //   console.log("podcast", podcast);
-  //   const ep = await fetchRss(podcast.link);
-  //   episodes.push(ep);
+  podcasts.value.forEach(async (podcast) => {
+    console.log("podcast", podcast);
+    const ep = await fetchRss(podcast.link);
+    const arrayId = ep.link[0].split("/");
+    const podId = arrayId[arrayId.length - 1];
+    ep.id = podId;
+    episodes.push(ep);
+    console.log(episodes);
 
-  //   console.log("episodes", episodes[0]);
-  // });
+    setTimeout(() => {
+      isLoading.value = false;
+    }, 1000);
+  });
 
   //test sans api
-  episodes.push(
-    {
-      title: ["test"],
-      "itunes:image": [
-        {
-          $: {
-            href: "https://cdn.discordapp.com/attachments/685655650923053122/1123923007841239141/645b87197da629.01633555_1.png",
-          },
-        },
-      ],
-    },
-    {
-      title: ["test2 qsdf df dsf df sfd d"],
-      "itunes:image": [
-        {
-          $: {
-            href: "https://cdn.discordapp.com/attachments/685655650923053122/1123923008214536192/6479b5bf497704.61379988_1.png",
-          },
-        },
-      ],
-    },
-    {
-      title: ["test3"],
-      "itunes:image": [
-        {
-          $: {
-            href: "https://cdn.discordapp.com/attachments/685655650923053122/1107055380233724034/image.png",
-          },
-        },
-      ],
-    }
-  );
+  // episodes.push(
+  //   {
+  //     title: ["test"],
+  //     "itunes:image": [
+  //       {
+  //         $: {
+  //           href: "https://cdn.discordapp.com/attachments/685655650923053122/1123923007841239141/645b87197da629.01633555_1.png",
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: ["test2 qsdf df dsf df sfd d"],
+  //     "itunes:image": [
+  //       {
+  //         $: {
+  //           href: "https://cdn.discordapp.com/attachments/685655650923053122/1123923008214536192/6479b5bf497704.61379988_1.png",
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: ["test3"],
+  //     "itunes:image": [
+  //       {
+  //         $: {
+  //           href: "https://cdn.discordapp.com/attachments/685655650923053122/1107055380233724034/image.png",
+  //         },
+  //       },
+  //     ],
+  //   }
+  // );
 });
 
 // const xmlObject = fetchRss("apo_podcasts");
@@ -109,6 +125,10 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+[v-cloak] {
+  display: none;
+}
+
 a {
   text-decoration: none;
   color: #303030;
@@ -122,10 +142,12 @@ ul {
 
   li {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     position: relative;
     min-width: 145px;
-    width: 90%;
+    max-width: 48%;
+    width: 45%;
     flex-grow: 1;
     border-radius: 7px;
 
@@ -134,9 +156,11 @@ ul {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: #303030;
+      font-weight: 600;
     }
 
-    img {
+    img.li_img {
       object-fit: cover;
       max-width: 165px;
       height: 165px;
@@ -166,20 +190,35 @@ ul {
   // }
 }
 
-.li_content {
-  .btn_pod {
-    position: absolute;
-    top: 5px;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.btn_pod {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 
-    > * {
-      border-radius: 100%;
+  button {
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    width: 40px;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 20px;
       aspect-ratio: 1/1;
-      width: 40px;
-      background: red;
+      color: #303030;
+      fill: red;
+
+      &.playSvg {
+        margin-left: 3px;
+      }
     }
   }
 }
@@ -218,6 +257,45 @@ ul {
       padding: 0;
       width: 165px;
     }
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .content-view {
+    width: 90%;
+  }
+  ul {
+    align-items: center;
+    // justify-content: center;
+    li {
+      // max-width: 85%;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .btn_pod {
+        margin-left: 10px;
+        position: relative;
+        align-self: flex-start;
+        flex-direction: row;
+        order: 3;
+        margin-bottom: 20px;
+      }
+
+      h3 {
+        flex-basis: 100%;
+        margin-top: 5px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 309px) {
+  .btn_pod {
+    flex-direction: row;
+    margin-left: 0 !important;
+    margin-bottom: 10px;
   }
 }
 </style>

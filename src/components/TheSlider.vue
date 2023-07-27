@@ -1,11 +1,12 @@
 <template>
   <div class="slider-bloc">
-    <div class="slider">
+    <div class="slider" @click="test()">
+      <!-- <router-link :to="`/agenda/${sliderObj[idxSlider - 1].urlImg}`"> -->
       <div class="slider__control">
-        <button @click="changeSlide('moins')">
+        <button @click.stop="" @click="changeSlide('moins')">
           <i class="arrow left"></i>
         </button>
-        <button @click="changeSlide('plus')">
+        <button @click.stop="" @click="changeSlide('plus')">
           <i class="arrow right"></i>
         </button>
       </div>
@@ -17,6 +18,7 @@
           srcset=""
         />
       </div>
+      <!-- </router-link> -->
     </div>
     <div class="slider__dot">
       <span
@@ -29,48 +31,50 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeMount } from "vue";
 import { fetchData } from "@/services/api";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const idxSlider = ref(1);
 const sliderObj = ref({});
 
-fetchData(
-  "https://sc1ihlu1696.universe.wf/Appli-Capsao/public/api/sliders"
-).then((res) => {
-  console.log(res);
+const fetchSlider = async () => {
+  const res = await fetchData("https://latinoclub.fr/api/sliders");
   sliderObj.value = res;
-});
-
-const imgSlider = ref([
-  "https://cdn.discordapp.com/attachments/685655650923053122/1123923008214536192/6479b5bf497704.61379988_1.png",
-  "https://cdn.discordapp.com/attachments/685655650923053122/1123923007841239141/645b87197da629.01633555_1.png",
-]);
+};
 
 let intSlider;
 console.log(idxSlider.value);
 const changeSlide = (state) => {
-  console.log("in");
-
-  console.log(idxSlider.value);
   clearInterval(intSlider);
-
   intSlider = setInterval(() => {
     changeSlide("plus");
   }, 10000);
 
   if (state == "plus") {
     idxSlider.value++;
-    if (idxSlider.value > imgSlider.value.length) {
+    if (idxSlider.value > sliderObj.value.length) {
       idxSlider.value = 1;
     }
   } else if (state == "moins") {
     idxSlider.value--;
     if (idxSlider.value < 1) {
-      idxSlider.value = imgSlider.value.length;
+      idxSlider.value = sliderObj.value.length;
     }
   }
 };
+
+const test = () => {
+  const id = sliderObj.value[idxSlider.value - 1].guid.split("-");
+  console.warn(id[id.length - 1]);
+
+  router.push("/agenda/" + id[id.length - 1]);
+};
+
+onBeforeMount(() => {
+  fetchSlider();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -84,7 +88,7 @@ const changeSlide = (state) => {
 .slider {
   position: relative;
   width: 82%;
-  height: 160px;
+  height: 40%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -93,19 +97,33 @@ const changeSlide = (state) => {
     height: 100%;
     width: 100%;
     overflow: hidden;
+    display: flex;
+    align-items: center;
     border-radius: 9px;
+
+    // width: 100%;
+    // flex-shrink: 0;
+    // box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+    // border-radius: 7px;
+    // display: flex;
+    // justify-content: center;
+    // overflow: hidden;
+    // height: 20%;
+    // height: 165px;
     img {
-      border-radius: 9px;
+      // width: 100%;
+      // object-fit: cover;
+      object-fit: fill;
       width: 100%;
-      object-fit: cover;
-      overflow: hidden;
+      height: 180px;
+      // max-height: 340px;
     }
   }
 
   &__dot {
     display: flex;
     gap: 4px;
-    margin-top: 5px;
+    margin-top: 8px;
 
     span {
       width: 11px;
@@ -132,18 +150,19 @@ const changeSlide = (state) => {
 
   button {
     background: rgba(255, 255, 255, 0.685);
-    padding: 10px;
+    padding: 12px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
+    margin-top: 3px;
   }
 }
 
 .arrow {
-  border: solid black;
-  border-width: 0 3px 3px 0;
+  border: solid #303030;
+  border-width: 0 4px 4px 0;
   display: inline-block;
   padding: 5px;
 }
@@ -160,7 +179,11 @@ const changeSlide = (state) => {
 
 @media screen and (min-width: 460px) {
   .slider {
-    height: 230px;
+    height: 100%;
+    img {
+      // object-fit: cover;
+      height: 300px;
+    }
   }
 }
 @media screen and (min-width: 768px) {

@@ -3,7 +3,7 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="library" href="/agenda">
+        <ion-tab-button tab="library" @click="navTo('/agenda')">
           <div class="button-content">
             <div class="ion-icon">
               <svg
@@ -35,7 +35,7 @@
           </div>
         </ion-tab-button>
 
-        <ion-tab-button tab="radio" href="/radio">
+        <ion-tab-button tab="radio" @click="navTo('/radio')">
           <div class="button-content">
             <div class="ion-icon">
               <svg
@@ -71,11 +71,11 @@
                 />
               </svg>
             </div>
-            <ion-label>Radio</ion-label>
+            <ion-label>Radios</ion-label>
           </div>
         </ion-tab-button>
 
-        <ion-tab-button tab="home" href="/podcast">
+        <ion-tab-button tab="home" @click="navTo('/podcast')">
           <div class="button-content">
             <div class="ion-icon">
               <svg
@@ -152,32 +152,16 @@ import {
   IonLabel,
   IonIcon,
 } from "@ionic/vue";
-import { ref, computed, watch } from "vue";
-import { radio, calendarOutline, playCircleOutline } from "ionicons/icons";
 
 import { usePlayerStore } from "@/store/radioPlayer";
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
 const store = usePlayerStore();
+const router = useRouter();
 
-// console.log(store);
-
-// const changePlayer = (myPath) => {
-//   console.log("dd", store.getPlayerVisible);
-//   console.log(myPath);
-//   if (myPath === "agenda" || myPath === "podcast" || myPath === "/") {
-//     store.hideFullPlayer();
-//     if (store.getPlayerVisible) {
-//       store.showPlayer();
-//     }
-//   } else {
-//     if (!store.getPlayerVisible) {
-//       store.showPlayer();
-//     }
-//     store.showFullPlayer();
-//     // store.showHidePlayer();
-//   }
-// };
+const navTo = (path) => {
+  router.push(path);
+};
 </script>
 
 <style lang="scss">

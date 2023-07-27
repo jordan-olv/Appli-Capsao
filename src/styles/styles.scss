@@ -5,6 +5,7 @@
 @import "./components/TheHeader";
 @import "./components/TheContent";
 @import "./components/TheNav";
+@import 'animate.css';
 
 
 
@@ -24,6 +25,7 @@ body {
   background: rgba(255, 255, 255, 0);
 }
 
+
 section {
   height: 100%;
   // background: #f9f9f9;
@@ -32,6 +34,7 @@ section {
   flex-direction: column;
   align-items: center;
   padding-bottom: 120px;
+  animation: fadeIn 1s ease-in;
   // background-image: url("@/assets/images/pattern.jpg");
 }
 
@@ -39,11 +42,30 @@ section {
   // padding-bottom: 30px;
   width: 82%;
 
-  /* The `&.home` selector is used to target an element with the class "home" that is a child of the
-`.content-view` element. When this selector is applied, it sets the width of the element to 100%.
-This is useful for styling specific elements differently based on their class. */
+
   &.home {
     width: 100%;
+
+    h2 {
+      animation: fadeIn 1s ease-in;
+    }
+
+    li {
+      transition: all 0.3s ease-in-out;
+      animation: fadeIn 1s ease-in;
+
+    }
+  }
+}
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 
@@ -60,10 +82,26 @@ h2 {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 25px;
-  margin-bottom: 7px;
+  margin-top: 28px;
+  margin-bottom: 5px;
 }
 
 .hidden {
   display: none;
+}
+
+
+.backBtnSolo {
+  display: flex;
+  justify-content: flex-end; // width: 100%;
+  margin-bottom: 5px;
+
+  button {
+
+    background: none;
+  }
+
+  img {
+    width: 40px;
+  }
 }

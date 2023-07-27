@@ -1,21 +1,27 @@
 import { defineStore } from 'pinia';
 import axios from "axios";
-import { Plugins } from '@capacitor/core';
 
-const { Http } = Plugins;
+import { printCurrentPosition } from '@/services/geoLoc';
 
 export const usePlayerStore = defineStore('player', {
   state: () => ({
     isPlayerVisible: true,
     isFullScreen: false,
     isPlaying: false,
+    isPodcast: false,
     audioElement: null,
     artistName: '',
     songName: '',
     currentRadio: null,
+    currentPodcast: null,
+    currentTime: 0,
     radioList: [
 
     ],
+    podcastList: [
+
+    ],
+    playerImg: null,
   }),
   getters: {
     getPlayerVisible: (state) => state.isPlayerVisible,
@@ -26,72 +32,95 @@ export const usePlayerStore = defineStore('player', {
     getAudioElement: (state) => state.audioElement,
     getArtistName: (state) => state.artistName,
     getSongName: (state) => state.songName,
+    getCurrentPodcast: (state) => state.currentPodcast,
+    getIsPodcast: (state) => state.isPodcast,
+    getPlayerImg: (state) => state.playerImg,
+    getCurrentTime: (state) => state.currentTime,
   },
   actions: {
+    async init() {
+      this.radioList = [];
+      await this.refreshRadio();
+
+      this.getRadioList.forEach((element) => {
+        if (element.isDefault) {
+          this.currentRadio = element;
+        }
+      });
+
+      const radioLoc = await printCurrentPosition(this.radioList);
+      console.warn('radioLoc', radioLoc);
+      if (radioLoc) {
+        this.currentRadio = radioLoc;
+      }
+      await this.refreshTextPlayer();
+    },
     async refreshRadio() {
 
       try {
 
         this.radioList = [];
         const res = await axios.get(
-          "https://sc1ihlu1696.universe.wf/Appli-Capsao/public/api/api_radios"
+          "https://latinoclub.fr/api/api_radios"
         );
         if (res.status !== 200) {
           throw new Error("Problem getting text");
         }
-
-        // const response = await Http.request({
-        //   method: 'GET',
-        //   url: 'https://sc1ihlu1696.universe.wf/Appli-Capsao/public/api/api_radios',
-        // });
-
-        // console.log('Response:', response);
 
         const data = await res.data["hydra:member"];
 
         data.forEach((element) => {
-          if (element.isDefault) {
-            this.currentRadio = element;
-          }
           this.addRadio(element);
         });
+
       }
       catch (error) {
         console.log(error);
       }
-      // console.log('ahah', this.radioList)
     },
     async refreshTextPlayer() {
-      // console.log(this.currentRadio);
-      const id = this.currentRadio.id;
 
-      try {
+      if (!this.isPodcast) {
+        if (!this.currentRadio) return;
+        const id = this.currentRadio.id;
 
-        const res = await axios.get(
-          `https://sc1ihlu1696.universe.wf/Appli-Capsao/public/admin/radio/${id}/listen`
-        );
-
-        // console.log('test', res)
-        if (res.status !== 200) {
-          throw new Error("Problem getting text");
-        }
-
-        // console.log(res)
-        const data = res.data;
-        // console.log(data);
+        console.warn('refresh text player');
+        try {
+          console.log('in')
+          const res = await axios.get(
+            `https://latinoclub.fr/admin/radio/listen/${id}`, { timeout: 5000 }
+          );
 
 
-        data.fileContent = data.fileContent.replace(".mp3", "");
-        if (data.fileContent.startsWith("BP Lyon")) {
-          this.artistName = "";
+          if (res.status !== 200) {
+            throw new Error("Problem getting text");
+          }
+
+          const data = res.data;
+          if (data.fileContent) {
+
+            this.playerImg = this.currentRadio.imageURL;
+
+            data.fileContent = data.fileContent.replace(".mp3", "");
+            if (data.fileContent.startsWith("BP Lyon")) {
+              this.artistName = "";
+              this.songName = "Capsao";
+            } else {
+              const text = data.fileContent.split(" - ");
+              this.artistName = this.currentRadio.nom;
+              this.songName = text[0] + ' - ' + text[1];
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          this.artistName = "Radio";
           this.songName = "Capsao";
-        } else {
-          const text = data.fileContent.split(" - ");
-          this.artistName = text[0];
-          this.songName = text[1];
+          this.playerImg = this.currentRadio.imageURL;
         }
-      } catch (error) {
-        console.log(error);
+      } else {
+        this.artistName = this.currentPodcast['itunes:subtitle'][0];
+        this.songName = this.currentPodcast.title[0];
+        this.playerImg = this.currentPodcast['itunes:image'][0].$.href;
       }
 
       // this.songName = this.CurrentTrack.name;
@@ -116,27 +145,74 @@ export const usePlayerStore = defineStore('player', {
     hideFullPlayer() {
       this.isFullScreen = false;
     },
-    playRadio(track = this.getAudioElement) {
-      this.isPlaying = true;
-      this.addAudioElement(track);
-      track.src = this.getCurrentRadio.fluxAudio;
-      if (!track.paused) {
-        track.pause();
-        track.load();
+    async playRadio(track = this.getAudioElement) {
+      if (this.isPodcast) {
+        this.playPodcast(this.currentPodcast);
+      } else {
+
+        this.isPlaying = true;
+        this.isPodcast = false;
+        this.addAudioElement(track);
+        track.src = this.getCurrentRadio.fluxAudio;
+        if (!track.paused) {
+          track.load();
+        }
+
+        try {
+          await track.play();
+        } catch (e) {
+          console.log(e);
+        }
       }
-      console.dir(track.src);
-      track.play();
     },
     stopRadio(track = this.getAudioElement) {
       this.isPlaying = false;
+      if (this.isPodcast) {
+        this.currentTime = track.currentTime;
+      }
       track.pause();
     },
-    changeRadio(option, track = this.getAudioElement) {
+    playPodcast(pod, state) {
+
+      this.isPlaying = true;
+      this.isPodcast = true;
+      this.currentPodcast = pod;
+      const audioPlayer = this.getAudioElement
+
+
+      audioPlayer.src = pod.enclosure[0].$.url;
+
+      if (!audioPlayer.paused) {
+        audioPlayer.pause();
+        audioPlayer.load();
+      }
+      audioPlayer.play();
+
+      console.log(this.currentPodcast);
+
+      if (this.songName == pod.title[0]) {
+        if (this.currentTime > 0) {
+          audioPlayer.currentTime = this.currentTime;
+        }
+      } else {
+        this.currentTime = 0;
+      }
+      console.dir(audioPlayer)
+      this.artistName = pod.title[0];
+      this.songName = pod.title[0];
+    },
+
+    changeRadio(option) {
+      console.warn('change radio');
       this.currentRadio = option;
+      this.isPodcast = false;
       if (this.isPlaying) {
         this.playRadio();
       }
     },
 
+    addPodcast(podcast) {
+      this.podcastList.push(podcast);
+    }
   }
 });

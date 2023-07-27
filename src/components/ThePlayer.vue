@@ -1,30 +1,31 @@
+div
 <template>
-  <audio ref="audioElement" src=""></audio>
+  <audio ref="audioElement"></audio>
 
   <div
     class="audio-player-container"
     v-if="store.getPlayerVisible"
     :class="{ hidden: store.getIsFullScreen }"
   >
-    <div class="audio-player">
+    <div class="audio-player" @click="() => router.push('/radio')">
       <div class="audio-player-controls">
         <div class="radio-player-image">
           <img
-            :src="imageSrc || './src/assets/images/bgdefault.jpg'"
+            :src="store.getPlayerImg || './src/assets/images/bgdefault.jpg'"
             alt="Image"
             :class="{ 'cd-turn': store.getIsPlaying }"
           />
         </div>
         <div class="radio-player-text">
           <div class="radio-player-text-title">
-            <p :class="{ scrollX: currentAudio.length > 25 }">
-              {{ currentAudio }}
+            <p :class="{ scrollX: store.getSongName.length > 25 }">
+              {{ store.getSongName }}
             </p>
           </div>
           <div class="radio-player-text-subtitle">
             <!-- <div :class="{ scrollt: currentArtist.length > 40 }"> -->
-            <p :class="{ scrollX: currentArtist.length > 25 }">
-              {{ currentArtist }}
+            <p :class="{ scrollX: store.getArtistName.length > 25 }">
+              {{ store.getArtistName }}
             </p>
 
             <!-- {{ store.getCurrentRadio }} -->
@@ -37,6 +38,7 @@
             src="@/assets/svg/play.svg"
             v-if="!store.getIsPlaying"
             alt=""
+            @click.stop=""
             @click="store.playRadio(audioElement)"
           />
 
@@ -44,6 +46,7 @@
             src="@/assets/svg/pause.svg"
             alt=""
             v-if="store.getIsPlaying"
+            @click.stop=""
             @click="store.stopRadio(audioElement)"
           />
         </div>
@@ -51,6 +54,7 @@
           <img
             src="@/assets/svg/close.svg"
             alt=""
+            @click.stop=""
             @click="
               () => {
                 store.stopRadio(audioElement);
@@ -70,8 +74,14 @@
   >
     <div class="select-wrapper">
       <div class="select-header" @click="toggleDropdown">
-        <img src="@/assets/icon/capsao.png" alt="" />
-        <span>{{ selectedOption }}</span>
+        <img
+          width="25"
+          :src="store.getPlayerImg || './src/assets/images/bgdefault.jpg'"
+          alt=""
+        />
+        <span v-if="store.getCurrentRadio">{{
+          store.getCurrentRadio.nom
+        }}</span>
         <i :class="`arrow ${isOpen ? 'arrow-up' : 'arrow-down'}`"></i>
       </div>
       <ul class="select-dropdown" v-show="isOpen">
@@ -80,7 +90,7 @@
           :key="option"
           @click="selectOption(option)"
         >
-          <img src="@/assets/icon/capsao.png" alt="" />
+          <img width="25" :src="option.imageURL" alt="" />
           {{ option.nom }}
         </li>
       </ul>
@@ -89,14 +99,14 @@
     <div class="imgFullPlayer">
       <img
         :class="{ 'cd-turn': store.getIsPlaying }"
-        :src="imageSrc || './src/assets/images/bgdefault.jpg'"
+        :src="store.getPlayerImg || './src/assets/images/bgdefault.jpg'"
         alt="Image"
       />
     </div>
 
     <div class="textFullPlayer">
-      <div class="textFullPlayer-title">{{ currentAudio }}</div>
-      <div class="textFullPlayer-subtitle">{{ currentArtist }}</div>
+      <div class="textFullPlayer-title">{{ store.getSongName }}</div>
+      <div class="textFullPlayer-subtitle">{{ store.getArtistName }}</div>
     </div>
 
     <div class="controlFullPlayer">
@@ -145,100 +155,89 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from "vue";
+import { ref, reactive, computed, onMounted, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import { usePlayerStore } from "@/store/radioPlayer";
 import axios from "axios";
 import { parseString } from "xml2js";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const imageSrc = ref("");
 const store = usePlayerStore();
 const audioElement = ref(null);
 
-const selectedOption = ref("");
+const lastTime = ref(null);
+
+const selectedOption = ref("ded");
 const isOpen = ref(false);
-const options = ref(store.getRadioList);
+const options = ref();
 
-const currentArtist = ref("");
-const currentAudio = ref("");
-
-let intReloadText = setInterval(async () => {
-  // await refreshText();
-}, 15000);
-
-const refreshText = async () => {
-  // await store.refreshTextPlayer();
-  // console.log("SMALL");
-  // console.log("OLD", currentAudio.value);
-  // console.log("NEW", store.getSongName);
-
-  if (currentAudio.value != store.getSongName) {
-    currentAudio.value = store.getSongName;
-    currentArtist.value = store.getArtistName;
-  }
-};
-
-refreshText();
+setInterval(async () => {
+  await store.refreshTextPlayer();
+}, 10000);
 
 function toggleDropdown() {
   isOpen.value = !isOpen.value;
 }
 
 async function selectOption(option) {
-  selectedOption.value = option.nom;
+  // selectedOption.value = option.nom;
   isOpen.value = false;
   store.changeRadio(option);
-  refreshText();
-  console.log(option);
-  if (option.imageURL) {
-    imageSrc.value = option.imageURL;
-  } else {
-    imageSrc.value = imageSrc.value = "";
-  }
+  store.refreshTextPlayer();
+  // if (option.imageURL) {
+  //   imageSrc.value = option.imageURL;
+  // } else {
+  //   imageSrc.value = imageSrc.value = "";
+  // }
 }
 
-onMounted(async () => {
-  // await store.refreshTextPlayer();
+onBeforeMount(async () => {
+  // await store.refreshRadio();
+  await store.refreshTextPlayer();
 
-  currentArtist.value = store.getArtistName;
-  currentAudio.value = store.getSongName;
+  options.value = store.getRadioList;
+
+  await store.addAudioElement(audioElement);
 
   const option = store.getCurrentRadio;
   if (option) {
-    selectedOption.value = option.nom;
+    // selectedOption.value = option.nom;
     if (option.imageURL) {
-      console.log(option.imageURL);
       imageSrc.value = option.imageURL;
     } else {
       imageSrc.value = "";
     }
   }
 });
+
+// onMounted(async () => {
+//   firstSelect();
+// });
+// const firstSelect = () => {
+//   selectedOption.value = store.getCurrentRadio.nom;
+//   console.log("FIRST", selectedOption.value);
+// };
 </script>
 
 <style lang="scss">
 // section {
 //   padding-bottom: 200px;
 // }
+
 .audio-player-container {
   width: 100%;
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 11%;
+  bottom: 10.5%;
   .audio-player {
-    // height: 70px;
-    // width: 93%;
-    // border-radius: 7px;
-    // background: #ebebeb;
-    // box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
-    // display: flex;
-    // justify-content: center;
-    // color: #303030;
-    // overflow: hidden;
-    // max-width: 600px;
-
-    height: 75px;
+    // animation: bounce 1.5s ease-in;
+    // animation: bounceIn 2s ease-in-out;
+    animation: myAnim 1s ease 0s 1 normal none;
+    // animation-iteration-count: 2;
+    height: 80px;
     width: 93%;
     border-radius: 7px;
     /* background: #ebebeb; */
@@ -247,19 +246,45 @@ onMounted(async () => {
     justify-content: center;
     color: #303030;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.705);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    max-width: 600px;
+    // border: 1px solid rgba(255, 255, 255, 0.28);
+    max-width: 500px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4%;
+      background: linear-gradient(180deg, #fd7307 0%, #d61f1f 175%);
+      z-index: 1;
+      // animation: scrollRev 5s linear infinite;
+    }
+
+    // &::before {
+    //   content: "";
+    //   position: absolute;
+    //   bottom: 0;
+    //   width: 100%;
+    //   right: 0;
+    //   height: 4%;
+    //   background: linear-gradient(180deg, #fd7307 0%, #d61f1f 175%);
+    //   z-index: 1;
+    //   animation: reverse scrollRev 5s linear infinite;
+    // }
+
     &-controls {
       display: flex;
       align-items: center;
       gap: 5px;
       height: 100%;
       width: 100%;
+      z-index: 2;
     }
   }
 
@@ -329,8 +354,8 @@ onMounted(async () => {
       margin-right: 10px;
 
       img {
-        width: 30px;
-        height: 30px;
+        width: 33px;
+        height: 33px;
       }
     }
 
@@ -341,8 +366,8 @@ onMounted(async () => {
       width: 10%;
 
       img {
-        width: 20px;
-        height: 20px;
+        width: 23px;
+        height: 23px;
       }
     }
   }
@@ -359,6 +384,7 @@ onMounted(async () => {
   padding: 10px;
   justify-content: center;
   z-index: 999;
+  animation: fadeIn 0.5s ease-in-out;
 
   .select-wrapper {
     position: relative;
@@ -547,6 +573,18 @@ onMounted(async () => {
   }
 }
 
+@keyframes scrollRev {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 50%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
 @keyframes rotation {
   from {
     transform: rotate(0deg);
@@ -555,6 +593,90 @@ onMounted(async () => {
     transform: rotate(360deg);
   }
 }
+
+// @keyframes myAnim {
+//   0% {
+//     animation-timing-function: ease-in;
+//     opacity: 0;
+//     transform: translateY(-300px);
+//   }
+
+//   38% {
+//     animation-timing-function: ease-out;
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+
+//   55% {
+//     animation-timing-function: ease-in;
+//     transform: translateY(-65px);
+//   }
+
+//   72% {
+//     animation-timing-function: ease-out;
+//     transform: translateY(0);
+//   }
+
+//   81% {
+//     animation-timing-function: ease-in;
+//     transform: translateY(-28px);
+//   }
+
+//   90% {
+//     animation-timing-function: ease-out;
+//     transform: translateY(0);
+//   }
+
+//   95% {
+//     animation-timing-function: ease-in;
+//     transform: translateY(-8px);
+//   }
+
+//   100% {
+//     animation-timing-function: ease-out;
+//     transform: translateY(0);
+//     // background: rgba(255, 255, 255, 0.705);
+//   }
+// }
+
+@keyframes myAnim {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-3000px, 0, 0) scaleX(3);
+    transform: translate3d(-3000px, 0, 0) scaleX(3);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: translate3d(25px, 0, 0) scaleX(1);
+    transform: translate3d(25px, 0, 0) scaleX(1);
+  }
+
+  75% {
+    -webkit-transform: translate3d(-10px, 0, 0) scaleX(0.98);
+    transform: translate3d(-10px, 0, 0) scaleX(0.98);
+  }
+
+  90% {
+    -webkit-transform: translate3d(5px, 0, 0) scaleX(0.995);
+    transform: translate3d(5px, 0, 0) scaleX(0.995);
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @media screen and (min-width: 530px) {
   .audio-player-containerFull {
     padding: 30px;
