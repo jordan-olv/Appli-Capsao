@@ -2,6 +2,7 @@
 
 namespace App\Controller\Event;
 
+use Exception;
 use App\Repository\EventFluxRssRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,20 +17,17 @@ class EventListenController extends AbstractController
     #[Route('/event', name: 'app_event_listen')]
     public function edit(EventFluxRssRepository $eventFluxRssRepository): Response
     {
-        $eventFluxRss = $eventFluxRssRepository->findBy(array(),array('id'=>'DESC'),1,0);
-        $eventFluxRss = $eventFluxRss[0];
+        $eventFluxRss = $eventFluxRssRepository->findOneBy(['id'=>1]);
+
+        // dd($eventFluxRss);
     
-        $feeds = file_get_contents($eventFluxRss->getLink());
-        // $feeds = str_replace("<content:encoded>","<contentEncoded>",$feeds);
-        // $feeds = str_replace("</content:encoded>","</contentEncoded>",$feeds);
-        // $rss = simplexml_load_string($feeds, 'SimpleXMLElement', LIBXML_NOCDATA);
-
-
-        // html_entity_decode pose probleme pour la transformation en objet
-        // $feeds = html_entity_decode($feeds);
-
-
+        if(isset($eventFluxRss)){
+            $feeds = file_get_contents($eventFluxRss->getLink());
+            return $this->json(['fileContent' => $feeds]);
+        }
+        
         // Envoyer le contenu à l'application front-end (Vue.js) sous forme de réponse JSON, par exemple
-        return $this->json(['fileContent' => $feeds]);
+        
+        return $this->json(['fileContent' => NULL]);
     }
 }

@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class SliderType extends AbstractType
 {
@@ -33,6 +34,11 @@ class SliderType extends AbstractType
                 'label_attr' => ['class' => 'formVide'],
                 'attr' => ['class' => 'formVide'],
                 'required'=> false
+            ])
+            ->add('title', HiddenType::class,[
+                'label_attr' => ['class' => 'formVide'],
+                'attr' => ['class' => 'formVide'],
+                'required' => false
             ])
         ;
     }

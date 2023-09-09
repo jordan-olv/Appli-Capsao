@@ -18,6 +18,7 @@
 
 <script>
   const formEvent = document.querySelector("#slider_id");
+  const options = formEvent.querySelectorAll("option");
   const formVide = document.querySelectorAll(".formVide");
 
   formVide.forEach(e=>e.style.display = 'none')
@@ -33,10 +34,18 @@
     }
   }
 
+  options.forEach(element => {
+    if(element.text===formVide[4].value){
+      formEvent.value = element.value
+    }
+  });
+
   checkIfVide()
 
   formEvent.addEventListener('change',()=>{
     checkIfVide()
   })
+
+  
 </script>
 {% endblock %}

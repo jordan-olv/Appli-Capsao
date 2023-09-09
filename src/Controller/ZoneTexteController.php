@@ -15,17 +15,12 @@ class ZoneTexteController extends AbstractController
     #[Route('admin/zonetexte', name: 'app_zone_texte', methods: ['GET', 'POST'])]
     public function edit(Request $request, ZoneTexteRepository $zoneTexteRepository): Response
     {
-        $zoneTexte = $zoneTexteRepository->findBy(array(),array('id'=>'DESC'),1,0);
+        $zoneTexte = $zoneTexteRepository->findOneBy(['id'=>1]);
+        // dd($zoneTexte);
         
-        if(isset($zoneTexte[0])){
-            $zoneTexte = $zoneTexte[0];
-        }
-        else{
+        if(!isset($zoneTexte)){
             $zoneTexte = new ZoneTexte();
         }
-
-        
-
 
 
         $form = $this->createForm(ZoneTexteType::class, $zoneTexte);

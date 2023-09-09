@@ -28,50 +28,16 @@ class ApiRadioUpdateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-             // Ajout dans la base de donnée toutes les infos pour la radio sans les coordonnées
+            $zipCode = $form['codePostal']->getData();
 
-             $apiRadioRepository->save($apiRadio, true);
+            
+            
+            $apiRadioRepository->findZipCode($apiRadio,$zipCode);
+            $apiRadioRepository->save($apiRadio, true);
 
-             // Récupération de la liste des villes contenant les latitudes et longitudes
-             // https://www.data.gouv.fr/fr/datasets/villes-de-france/
- 
-             $citiesJson = file_get_contents('assets/cities.json');
-             $json = json_decode($citiesJson, true);
-             $jsonCities = $json['cities'];
- 
-             // Récupération du dernier code postal ajouté dans la base de donnée
- 
-             $results    = $apiRadioRepository->findBy(array('id'=>$id));
-             $codePostal = $results[0]->getCodePostal();
- 
- 
-             $isFinded   = false;
- 
-             // Chercher dans le json si on trouve une correspondance etre un code postal du json et celui rentré 
-             
-             foreach ($jsonCities as $key => $value) {
-                 if($value['zip_code'] == $codePostal){
-                     $correctInfo = $value;
-                     $isFinded    = true;
-                 }
-             }
- 
-             // Si trouvé rajouter dans la bdd les coordonnées
- 
-             if($isFinded){
-                 $concat = $correctInfo['latitude'].','.$correctInfo['longitude'];
-                 $results[0]->setCoordonnees($concat);
-             }
-             else{
-                // Si non trouvé ajouter les coordonnées 0,0
-                 $results[0]->setCoordonnees('0,0');
-             }
-
-             if(!$form->get('imageFile')->getData() == null){
-                $apiRadio->setimageURL('https://latinoclub.fr/assets/img/'.$apiRadio->getimageURL());
+            if(!$form['imageFile']->getData()==NULL){
+                $apiRadioRepository->updateImgUrl($apiRadio);
             }
- 
-             $apiRadioRepository->save($apiRadio, true);
 
             return $this->redirectToRoute('app_api_radio_index', [], Response::HTTP_SEE_OTHER);
         }

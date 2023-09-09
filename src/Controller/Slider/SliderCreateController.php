@@ -4,12 +4,14 @@ namespace App\Controller\Slider;
 
 use App\Entity\Slider;
 use App\Form\SliderType;
-use App\Repository\ApiEventRepository;
 use App\Repository\SliderRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ApiEventRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\EventFluxRssRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Création d'événement dans le slider
@@ -19,15 +21,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class SliderCreateController extends AbstractController
 {
     #[Route('/new', name: 'app_slider_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SliderRepository $sliderRepository,ApiEventRepository $apiEventRepository): Response
+    public function new(Request $request, SliderRepository $sliderRepository,ApiEventRepository $apiEventRepository, EventFluxRssRepository $eventFluxRssRepository,EntityManagerInterface $em): Response
     {
-        // dd($apiEventRepository->findAll());
-        if(!isset($apiEventRepository->findAll()[0]))
-        {
-            echo 'Erreur lors de la récupération des informations des événements, vérifiez le lien du flux événement.';
-            return $this->render('slider/new.html.twig');
-        }
-        else{
+
+            $fluxrss = $eventFluxRssRepository->findOneBy(['id'=>1]);
+            $fluxrss = $fluxrss->getLink();
+
+                $apiEventRepository->addEventDB($fluxrss,$em);
+
+            
+
+
             $slider = new Slider();
             $form = $this->createForm(SliderType::class, $slider);
             $form->handleRequest($request);
@@ -37,6 +41,8 @@ class SliderCreateController extends AbstractController
                 //Récupération des data selon le choix du select
 
                 $data = $form->get('id')->getData();
+
+                // dd($data->getUrlImg());
 
                 $slider->setTitle($data->getTitle());
                 $slider->setDescription($data->getDescription());
@@ -54,6 +60,8 @@ class SliderCreateController extends AbstractController
                     $slider->setLink($data->getLink());
                     $slider->setUrlImg($data->getUrlImg());
                 }
+
+                // dd($slider);
                 
 
                 
@@ -65,6 +73,5 @@ class SliderCreateController extends AbstractController
                 'slider' => $slider,
                 'form' => $form,
             ]);
-        }
     }
 }

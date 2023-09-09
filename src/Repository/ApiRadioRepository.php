@@ -39,6 +39,43 @@ class ApiRadioRepository extends ServiceEntityRepository
         }
     }
 
+    public function findZipCode($apiRadio,$zipCode): void{
+
+            // Récupération de la liste des villes contenant les latitudes et longitudes
+            // https://www.data.gouv.fr/fr/datasets/villes-de-france/
+
+            $citiesJson = file_get_contents('assets/cities.json');
+            $json = json_decode($citiesJson, true);
+            $jsonCities = $json['cities'];
+
+
+            $isFinded   = false;
+
+            // Chercher dans le json si on trouve une correspondance etre un code postal du json et celui rentré 
+            
+            foreach ($jsonCities as $key => $value) {
+                if($value['zip_code'] == $zipCode){
+                    $correctInfo = $value;
+                    $isFinded    = true;
+                }
+            }
+
+            // Si trouvé rajouter dans la bdd les coordonnées
+
+            if($isFinded){
+                $concat = $correctInfo['latitude'].','.$correctInfo['longitude'];
+                $apiRadio->setCoordonnees($concat);
+            }
+    }
+
+    public function updateImgUrl($apiRadio): void{
+        if(!$apiRadio->getimageURL() == null){
+            $apiRadio->setimageURL('https://latinoclub.fr/assets/img/'.$apiRadio->getimageURL());
+        }
+
+        $this->save($apiRadio, true);
+    }
+
 //    /**
 //     * @return ApiRadio[] Returns an array of ApiRadio objects
 //     */
