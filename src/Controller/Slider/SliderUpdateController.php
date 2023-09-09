@@ -45,7 +45,8 @@ class SliderUpdateController extends AbstractController
 
             if($data->getTitle() === '--- Vide ---'){  
                 $slider->setLink($form->get('link')->getData());
-                $slider->setUrlImg($form->get('imageFile')->getData());
+                $sliderRepository->save($slider, true);
+                $slider->setUrlImg('https://latinoclub.fr/assets/img/'.$slider->getUrlImg());
             }
             else{
                 $slider->setLink($data->getLink());

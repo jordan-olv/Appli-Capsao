@@ -39,7 +39,6 @@ class SliderRepository extends ServiceEntityRepository
         }
     }
 
-
 //    /**
 //     * @return Slider[] Returns an array of Slider objects
 //     */

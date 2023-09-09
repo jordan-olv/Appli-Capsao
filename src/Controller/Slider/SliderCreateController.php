@@ -57,7 +57,7 @@ class SliderCreateController extends AbstractController
                     $slider->setUrlImg('https://latinoclub.fr/assets/img/'.$slider->geturlImg());
                 }
                 else{
-                    $slider->setLink($data->getLink());
+                    $slider->setLink($data->getLink()); 
                     $slider->setUrlImg($data->getUrlImg());
                 }
 
