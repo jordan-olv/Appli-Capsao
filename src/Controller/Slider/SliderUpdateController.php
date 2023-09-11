@@ -23,7 +23,7 @@ class SliderUpdateController extends AbstractController
     #[Route('/{id}/edit', name: 'app_slider_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Slider $slider, SliderRepository $sliderRepository,ApiEventRepository $apiEventRepository,EventFluxRssRepository $eventFluxRssRepository,EntityManagerInterface $em): Response
     {
-        $fluxrss = $eventFluxRssRepository->findOneBy(['id'=>1]);
+        $fluxrss = $eventFluxRssRepository->findOneBy([],['id'=>'desc']);
         $fluxrss = $fluxrss->getLink();
 
         $apiEventRepository->addEventDB($fluxrss,$em);

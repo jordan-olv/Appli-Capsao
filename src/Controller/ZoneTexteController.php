@@ -15,7 +15,7 @@ class ZoneTexteController extends AbstractController
     #[Route('admin/zonetexte', name: 'app_zone_texte', methods: ['GET', 'POST'])]
     public function edit(Request $request, ZoneTexteRepository $zoneTexteRepository): Response
     {
-        $zoneTexte = $zoneTexteRepository->findOneBy(['id'=>1]);
+        $zoneTexte = $zoneTexteRepository->findOneBy([],['id'=>'desc']);
         // dd($zoneTexte);
         
         if(!isset($zoneTexte)){

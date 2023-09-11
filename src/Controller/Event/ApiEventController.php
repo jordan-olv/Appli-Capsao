@@ -24,7 +24,7 @@ class ApiEventController extends AbstractController
     #[Route('admin/evenement', name: 'app_api_event')]
     public function index(Request $request,EventFluxRssRepository $eventFluxRssRepository,ApiEventRepository $apiEventRepository,EntityManagerInterface $em): Response
     {
-        $eventFluxRss = $eventFluxRssRepository->findOneBy(['id'=>1]);
+        $eventFluxRss = $eventFluxRssRepository->findOneBy([],['id'=>'desc']);
 
         if(!isset($eventFluxRss)){
             $eventFluxRss = new EventFluxRss();

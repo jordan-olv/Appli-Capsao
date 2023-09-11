@@ -24,7 +24,9 @@ class SliderCreateController extends AbstractController
     public function new(Request $request, SliderRepository $sliderRepository,ApiEventRepository $apiEventRepository, EventFluxRssRepository $eventFluxRssRepository,EntityManagerInterface $em): Response
     {
 
-            $fluxrss = $eventFluxRssRepository->findOneBy(['id'=>1]);
+            $fluxrss = $eventFluxRssRepository->findOneBy([],['id'=>'desc']);
+            // dd($fluxrss);
+
             $fluxrss = $fluxrss->getLink();
 
                 $apiEventRepository->addEventDB($fluxrss,$em);
