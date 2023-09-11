@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EventListenController extends AbstractController
 {
-    #[Route('/event', name: 'app_event_listen')]
+    #[Route('/api/event', name: 'app_event_listen')]
     public function edit(EventFluxRssRepository $eventFluxRssRepository): Response
     {
         $eventFluxRss = $eventFluxRssRepository->findOneBy(['id'=>1]);
