@@ -173,7 +173,7 @@ const fetchPodcast = async () => {
 
 const fetchEvent = async () => {
   try {
-    const res = await axios.get(`https://latinoclub.fr/event`);
+    const res = await axios.get(`https://latinoclub.fr/api/event`);
 
     // console.log('test', res)
     if (res.status !== 200) {

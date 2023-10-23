@@ -53,7 +53,7 @@ const agendaDate = ref("");
 
 onBeforeMount(async () => {
   try {
-    const res = await axios.get(`https://latinoclub.fr/event`);
+    const res = await axios.get(`https://latinoclub.fr/api/event`);
 
     if (res.status !== 200) {
       throw new Error("Problem getting text");
